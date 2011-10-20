@@ -9,7 +9,7 @@ on_machine do |machine, params|
   
   machine.start_unix_service("name" => "httpd")
  
-  host_name = machine.name.split(".")[1..2]
+  host_name = machine.name.split(".")[1..2].join(".")
   proxy_name = "proxy." + host_name
   @op.with_machine(proxy_name) do |proxy|
     host.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://#{machine.ipaddress}/")
