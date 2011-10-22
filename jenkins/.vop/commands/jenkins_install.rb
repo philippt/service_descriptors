@@ -6,7 +6,8 @@ on_machine do |machine, params|
   machine.install_apache
 
   machine.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://localhost:8080/")
-  
+ 
+  # TODO this should be a restart
   machine.start_unix_service("name" => "httpd")
  
   host_name = machine.name.split(".")[1..2].join(".")
