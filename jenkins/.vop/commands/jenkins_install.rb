@@ -7,13 +7,14 @@ on_machine do |machine, params|
   machine.install_apache
 
   machine.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://localhost:8080/")
-  
+ 
+  # TODO this should be a restart
   machine.start_unix_service("name" => "httpd")
  
-  host_name = machine.name.split(".")[1..10]
+  host_name = machine.name.split(".")[1..10].join(".")
   proxy_name = "proxy." + host_name
   @op.with_machine(proxy_name) do |proxy|
-    host.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://#{machine.ipaddress}/")
-    host.ssh_and_check_result("command" => "/etc/init.d/httpd restart")
+    proxy.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://#{machine.ipaddress}/")
+    proxy.ssh_and_check_result("command" => "/etc/init.d/httpd restart")
   end
 end
