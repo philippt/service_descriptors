@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    #ServerAdmin admin@localhost.com
+
+    ServerName <%= params["server_name"].first %>    
+    
+    DocumentRoot <%= params["document_root"] %>
+
+    <Directory <%= params["document_root"] %> >
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+</VirtualHost>

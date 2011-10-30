@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    #ServerAdmin webmaster@localhost
+
+    ServerName <%= params["server_name"].first %>
+    <%# TODO handle the other server names %>
+
+	<%# TODO make sure target_url ends with a slash %>
+    ProxyPass / <%= params["target_url"] %>
+    ProxyPassReverse / <%= params["target_url"] %>
+
+    ProxyPreserveHost On
+</VirtualHost>
