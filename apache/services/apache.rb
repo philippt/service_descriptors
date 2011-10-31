@@ -1,3 +1,3 @@
 port 80
-process httpd
-unix_service httpd
+process_regex /httpd/
+unix_service :httpd

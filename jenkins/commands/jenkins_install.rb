@@ -4,12 +4,14 @@ param "domain", "the domain at which jenkins should be available", :mandatory =>
 on_machine do |machine, params|
   machine.ssh_and_check_result("command" => "sed -i -e 's/JENKINS_USER=\"jenkins\"/JENKINS_USER=\"root\"/g' /etc/sysconfig/jenkins")
   machine.start_unix_service("name" => "jenkins")
+  
+  
   machine.install_apache
-
   machine.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://localhost:8080/")
  
   # TODO this should be a restart
   machine.start_unix_service("name" => "httpd")
+  
  
   host_name = machine.name.split(".")[1..10].join(".")
   proxy_name = "proxy." + host_name
