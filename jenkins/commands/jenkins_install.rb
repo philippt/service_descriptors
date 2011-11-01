@@ -6,7 +6,7 @@ on_machine do |machine, params|
   machine.start_unix_service("name" => "jenkins")
   
   
-  machine.install_apache
+  machine.install_service("service_root" => "/etc/vop/service_descriptors/apache")
   machine.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://localhost:8080/")
  
   # TODO this should be a restart
