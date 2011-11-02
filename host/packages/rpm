@@ -1,3 +1,6 @@
 libvirt
 vim
 bridge-utils
+dejavu-lgc-sans-fonts
+xorg-x11-xauth
+tigervnc
