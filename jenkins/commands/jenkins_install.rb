@@ -8,9 +8,7 @@ on_machine do |machine, params|
   
   machine.install_service("service_root" => "/etc/vop/service_descriptors/apache")
   machine.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://localhost:8080/")
- 
-  # TODO this should be a restart
-  machine.start_unix_service("name" => "httpd")
+  machine.restart_unix_service("name" => "httpd")
   
  
   host_name = machine.name.split(".")[1..10].join(".")
