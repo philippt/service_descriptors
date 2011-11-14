@@ -26,7 +26,7 @@ on_machine do |machine, params|
           h["document_root"] = matched.captures.first        
         end        
       end
-      result << h
+      result << h unless h.keys.size == 0
     end
   end
   result
