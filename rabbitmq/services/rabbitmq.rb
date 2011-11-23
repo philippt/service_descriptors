@@ -1,1 +1,1 @@
-http_endpoint :55672
+unix_service "rabbitmq-server"
