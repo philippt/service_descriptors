@@ -1,0 +1,8 @@
+httpd
+php
+gcc
+glibc
+glibc-common
+gd
+gd-devel
+nagios-plugins-nrpe
