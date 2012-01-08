@@ -1,1 +1,1 @@
-http_endpoint :55672
+http_endpoint 55672

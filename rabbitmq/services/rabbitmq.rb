@@ -1,3 +1,3 @@
 unix_service "rabbitmq-server"
 
-tcp_endpoint :5672
+tcp_endpoint 5672
