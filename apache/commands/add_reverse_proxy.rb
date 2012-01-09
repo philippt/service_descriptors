@@ -6,5 +6,5 @@ param "target_url", "http url to the backend", :mandatory => true
 
 on_machine do |machine, params|
   first_domain = params["server_name"].first
-  process_template(:apache_reverse_proxy, machine, "/etc/httpd/conf.d.generated/#{first_domain}.conf", binding())
+  process_local_template(:apache_reverse_proxy, machine, "/etc/httpd/conf.d.generated/#{first_domain}.conf", binding())
 end

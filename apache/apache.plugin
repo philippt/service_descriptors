@@ -2,4 +2,4 @@ dependency :core
 dependency :machines
 dependency :bash
 dependency :erb_processor
-dependency :vop_services
+#dependency :vop_services
