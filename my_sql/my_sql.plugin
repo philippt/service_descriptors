@@ -1,0 +1,4 @@
+dependencies [ :bash, :machines, :core ]
+
+config_param "mysql_password", "the default password to use for database connections"
+config_param "dump_dir", "the directory where dumps should be stored"

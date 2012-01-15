@@ -7,5 +7,5 @@ param "document_root", "fully qualified path to the directory holding the static
 
 on_machine do |machine, params|
   first_domain = params["server_name"].first
-  process_template(:apache_static_vhost, machine, "/etc/httpd/conf.d.generated/#{first_domain}.conf", binding())
+  process_local_template(:apache_static_vhost, machine, "/etc/httpd/conf.d.generated/#{first_domain}.conf", binding())
 end

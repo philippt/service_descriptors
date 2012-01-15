@@ -4,7 +4,7 @@ param :machine
 
 on_machine do |machine, params|
   result = {}
-  machine.varnishstats.each do |stat|
+  @op.varnish_stats(params).each do |stat|
     if stat["key"] == "cache_hit"
       result["hits"] = stat["value"]
     elsif stat["key"] == "cache_miss"

@@ -1,1 +1,2 @@
 dependency :machines
+dependency :core
