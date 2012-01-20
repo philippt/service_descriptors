@@ -32,12 +32,12 @@ on_machine do |machine, params|
     if machine.file_exists({"file_name" => path_to_dump})
       file_to_copy = path_to_dump
     else
-      raise Exception.new("cannot find the dump specified dump as tarball (#{path_to_tarball}) or directory (#{path_to_dump}) - something is wrong here. chickening out.")
+      raise Exception.new("cannot find the specified dump as tarball (#{path_to_tarball}) or directory (#{path_to_dump}) - something is wrong here. chickening out.")
     end
   end
   
   @op.with_machine("localhost") do |localhost|
-    temp_dir = "#{localhost.home}/tmp/"
+    temp_dir = "/tmp/"
     machine.download_file("file_name" => file_to_copy, "local_dir" => temp_dir)
 
     @op.with_machine(params["target_machine"]) do |target_machine|

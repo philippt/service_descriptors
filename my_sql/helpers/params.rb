@@ -89,7 +89,9 @@ def param_dump(options = {})
 end
   
 def dump_dir
-  config_string('dump_dir', '/home/webadmin/tmp')
+  s = config_string('dump_dir', '/home/webadmin/tmp')
+  s += '/' unless /\/$/.match(s)
+  s
 end
 
 def mysql_user(host, db_name = nil)
