@@ -2,6 +2,10 @@ description 'returns the cache status for a varnish instance'
 
 param :machine
 
+mark_as_read_only
+
+display_type :hash
+
 on_machine do |machine, params|
   result = {}
   @op.varnish_stats(params).each do |stat|
