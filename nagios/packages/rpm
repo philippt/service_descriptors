@@ -5,4 +5,6 @@ glibc
 glibc-common
 gd
 gd-devel
-nagios-plugins-nrpe
+#nagios-plugins-nrpe
+make
+perl

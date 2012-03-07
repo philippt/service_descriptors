@@ -1,0 +1,2 @@
+dependency :core
+#dependencies [ :core, :my_sql ]

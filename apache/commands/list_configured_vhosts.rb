@@ -2,7 +2,7 @@ description 'lists the virtual hosts that have been configured on this apache'
 
 param :machine
 
-add_columns [ :domain, :target_ip, :document_root ]
+add_columns [ :domain, :target_ip, :document_root, :file_name ]
 
 mark_as_read_only
 
@@ -13,7 +13,9 @@ on_machine do |machine, params|
       
       next unless /\.conf$/.match(file_name.strip)
       
-      h = {}
+      h = {
+        "file_name" => directory + "/" + file_name
+      }
       machine.ssh_and_check_result("command" => "cat #{directory}/#{file_name}").split("\n").each do |line|
         if matched = /ServerName\s+(.+)/.match(line)
           h["domain"] = matched.captures.first

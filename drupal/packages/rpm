@@ -1,0 +1,6 @@
+mysql-server
+php
+php-mbstring
+php-mysql
+php-xml
+php-gd
