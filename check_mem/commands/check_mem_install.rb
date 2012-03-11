@@ -1,7 +1,15 @@
 param :machine
 
 on_machine do |machine, params|
-  machine.ssh_and_check_result("command" => "sudo mkdir -p /usr/local/nagios/checks && sudo chown -R ubuntu: /usr/local/nagios/checks")
+  # TODO this shouldn't be a sudo on centos!
+  commands = [ "mkdir -p /usr/local/nagios/checks" ]
+  if machine.linux_distribution.split("_").first == "ubuntu"
+    commands.each do |c|
+      c = "sudo #{c}"
+    end
+    commands << "sudo chown -R ubuntu: /usr/local/nagios/checks"
+  end 
+  machine.ssh_and_check_result("command" => commands.join(" && "))
   target_dir = "/usr/local/nagios/checks"
   machine.wget(
     "target_dir" => target_dir,
