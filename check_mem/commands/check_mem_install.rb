@@ -4,8 +4,8 @@ on_machine do |machine, params|
   # TODO this shouldn't be a sudo on centos!
   commands = [ "mkdir -p /usr/local/nagios/checks" ]
   if machine.linux_distribution.split("_").first == "ubuntu"
-    commands.each do |c|
-      c = "sudo #{c}"
+    commands.map! do |c|
+      "sudo #{c}"
     end
     commands << "sudo chown -R ubuntu: /usr/local/nagios/checks"
   end 

@@ -6,7 +6,7 @@ param! "backend_port", "the port name on which the backend server is listening",
   :default_value => 80
   
 on_machine do |machine, params|
-  # got to workaround a permission problem here
+  # got to workaround a permission problem here - ssh user (ubuntu) cannot write to /etc
   temp_file_name = machine.home + "/vop_configure_varnish_backend_#{Time.now.to_i}.tmp"
   process_local_template(:default_vcl, machine, temp_file_name, binding())
   real_path = "/etc/varnish/default.vcl"

@@ -114,3 +114,7 @@ def mysql_credentials(host, db_name = nil)
   end
   result
 end
+
+def mysql_socket(machine)
+  config_string('mysql_socket')
+end

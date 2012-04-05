@@ -1,2 +1,3 @@
 dependency :machines
+dependency :core
 dependency :erb_processor

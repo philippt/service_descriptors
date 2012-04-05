@@ -1,6 +1,9 @@
 param :machine
 
-on_machine do |machine, params|
+on_machine do |machine, params|  
+  machine.restart_unix_service("name" => %w|messagebus avahi-daemon libvirtd|)
+  machine.mark_unix_service_for_autostart("name" => %w|messagebus avahi-daemon|)
+  
   machine.install_yum_group("group_name" => "Virtualization*")
   
   loaded_modules = machine.ssh_and_check_result("command" => "lsmod | grep -c kvm").to_i

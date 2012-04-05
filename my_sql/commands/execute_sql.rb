@@ -26,6 +26,11 @@ on_machine do |machine, params|
     end
   end
   
+  configured_socket = config_string('mysql_socket', '')
+  if configured_socket != '' 
+    mysql_command += " -S #{configured_socket}"
+  end 
+  
   if params.has_key?('database')
     mysql_command += " -D" + params['database']
   end

@@ -9,6 +9,8 @@ param "slave", "a machine that should execute the test as jmeter slave",
   :lookup_method => lambda {
     @op.list_machines.map { |m| m["name"] }    
   }
+param "slave_ip", "the IP address to a machine that should execute the test as jmeter slave", 
+  :allows_multiple_values => true
   
 #display_type :hash
 
@@ -16,16 +18,23 @@ on_machine do |machine, params|
   test_path = "tests/#{params["test"]}.jmx"
   command_string = "apache-jmeter-2.6/bin/jmeter -n -t #{test_path}"
   
+  slaves = []
+  
   if params.has_key?('slave')
-    slaves = []
     params['slave'].each do |slave_name|
       @op.with_machine(slave_name) do |slave|
         d = slave.machine_detail
         slaves << (d.has_key?('dns_name') ? d['dns_name'] : d['ssh_host'])  
       end
-    end
-    command_string += " -R #{slaves.join(',')}"
+    end    
   end
+  
+  if params.has_key?('slave_ip')
+    slaves += params['slave_ip']
+  end
+  
+  command_string += " -R #{slaves.join(',')}" unless slaves.size == 0
+  
   output = machine.ssh_and_check_result("command" => command_string)
   result = output
 #  result = {"unparsed_output" => output}
