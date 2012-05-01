@@ -112,9 +112,12 @@ def mysql_credentials(host, db_name = nil)
   if password != nil
     result += " -p" + password
   end
+  if mysql_socket(host) != ''
+    result += " -S" + mysql_socket(host)
+  end
   result
 end
 
 def mysql_socket(machine)
-  config_string('mysql_socket')
+  config_string('mysql_socket', '')
 end

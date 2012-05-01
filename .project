@@ -24,6 +24,5 @@
 	<natures>
 		<nature>com.aptana.ruby.core.rubynature</nature>
 		<nature>org.rubypeople.rdt.core.rubynature</nature>
-		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
 </projectDescription>

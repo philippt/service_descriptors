@@ -1,5 +1,6 @@
-dependencies [ :bash, :machines, :core ]
+dependencies [ :bash, :machines, :core, :ssh_connector ]
 
+config_param "mysql_user", "the default user to use for database connections"
 config_param "mysql_password", "the default password to use for database connections"
 config_param "dump_dir", "the directory where dumps should be stored"
 config_param "mysql_socket", "the mysql socket to use for database connections"

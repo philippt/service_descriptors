@@ -11,5 +11,7 @@ on_machine do |machine, params|
   
   target_file_name = "/var/www/html/index.html"
   process_local_template(:index_html, machine, target_file_name, binding())
-  machine.chown("file_name" => target_file_name, "ownership" => "apache:")
+  
+  user = machine.linux_distribution.split("_").first == "ubuntu" ? "www-data" : "apache"
+  machine.chown("file_name" => target_file_name, "ownership" => "#{user}:")
 end
