@@ -1,5 +1,7 @@
 description "lists all database users that should be configured on this machine (reads /etc/xop/mysql/users.d)"
 
+param :machine
+
 add_columns [ :name, :privilege, :db, :tables, :host, :password ]
 
 on_machine do |machine, params|

@@ -8,7 +8,8 @@ mark_as_read_only
 
 on_machine do |machine, params|
   result = []
-  [ "/etc/httpd/conf.d.generated/", "/etc/httpd/conf.d/" ].each do |directory|
+  # TODO we could think about carefully trying to include "/etc/httpd/conf.d/" (avoiding stuff like php.conf)
+  [ "/etc/httpd/conf.d.generated/" ].each do |directory|
     machine.list_files("directory" => directory).each do |file_name|
       
       next unless /\.conf$/.match(file_name.strip)

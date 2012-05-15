@@ -5,6 +5,7 @@ add_columns [ :name, :date, :host ]
 param :machine
 param! :dump, "the dump from which we're going to restore"
 param "database", "a list of databases that should be restored (default: all)", :allows_multiple_values => true
+#param :mysql_host
 
 on_machine do |machine, params|
   dump_name = params["dump_name"]
@@ -52,14 +53,12 @@ on_machine do |machine, params|
 
       # drop the existing db if it exists
       if local_dbs.include?(db_name)
-        machine.drop_database({
-          "database" => db_name
-        })
+        machine.drop_database("database" => db_name)
       end
 
-      machine.create_database({
+      machine.create_database(
         "name" => db_name
-      })
+      )
 
       dump_file = path_to_dump + "/" + db_name + ".dmp"
 
@@ -90,11 +89,12 @@ on_machine do |machine, params|
         end
 
         # now we might have either .dmp files per db or a directory per db containing tsv files
+        mysql_host = machine.db_host()
         if machine.file_exists("file_name" => dump_file)
           # => oldschool mysql dumps
           
           # yes, rico...
-          machine.ssh_and_check_result("command" => "mysql #{mysql_credentials(machine, db_name)} -D#{db_name} < #{dump_file}")
+          machine.ssh_and_check_result("command" => "mysql #{mysql_credentials(machine, db_name)} -D#{db_name} -h #{mysql_host} < #{dump_file}")
         else
           # tsv files in a database directory
           if machine.file_exists("file_name" => database_dir_name)
@@ -104,7 +104,7 @@ on_machine do |machine, params|
             if machine.file_exists("file_name" => schema_file)
               $logger.debug("schema file found, assuming that this is a tsv file dump")
               
-              machine.ssh_and_check_result("command" => "mysql #{mysql_credentials(host, db_name)} -D#{db_name} < #{schema_file}")
+              machine.ssh_and_check_result("command" => "mysql #{mysql_credentials(host, db_name)} -D#{db_name} -h #{mysql_host} < #{schema_file}")
             end
             
             # now for the tsv files themselves
