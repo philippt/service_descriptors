@@ -1,3 +1,5 @@
+description "nagios install script"
+
 param :machine
 
 on_machine do |machine, params|
