@@ -3,5 +3,5 @@ description "returns the machine to use as a database for the specified machine.
 param :machine
 
 on_machine do |machine, params|
-  machine.name
+  "127.0.0.1"
 end  
