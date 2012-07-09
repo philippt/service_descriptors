@@ -4,20 +4,32 @@ on_machine do |machine, params|
   process_local_template(:dropbox_py, machine, machine.home + "/dropbox.py", binding())
   machine.chmod("file_name" => machine.home + "/dropbox.py", "permissions" => "+x")
   
-  machine.ssh_and_check_result("command" => "cd ~ && wget -O - http://www.dropbox.com/download?plat=lnx.x86_64 | tar xzf -")
-  machine.ssh_and_check_result("command" => "nohup ~/.dropbox-dist/dropboxd 2>&1 > ~/dropboxd.log &")
+  machine.ssh_and_check_result("command" => 'cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -')
   
-  # TODO read output:
-  #This client is not linked to any account...
-  #Please visit https://www.dropbox.com/cli_link?host_id=d19507b8a008b05f1c5308da0fbd1203&cl=en_US to link this machine.
-
-  # TODO link server
+  t = Thread.new do
+    machine.ssh("command" => "nohup ~/.dropbox-dist/dropboxd 2>&1 > ~/dropboxd.log &")
+  end
+  sleep 2
+  
+  machine.read_file("file_name" => "dropboxd.log").each do |line|
+    if matched = /Please visit (http\S+) to link/.match(line)
+      url = matched.captures.first
+      @op.comment("message" => "should hit #{url} now")
+      
+      message = read_local_template(:mail, binding())    
+      @op.send_mail("message" => message)
+      break
+    end
+  end
+  
 
   # TODO check output
   #Client successfully linked, Welcome Philipp!
-
-  # TODO run ~/.dropbox-dist/dropbox to sync
   
+  
+  # TODO kill?
+  #machine.processes
+
   
   # TODO make dropbox dir available for apache:
   # z_neu.cabildo.virtualop $ chown

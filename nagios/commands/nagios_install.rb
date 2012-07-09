@@ -34,6 +34,8 @@ on_machine do |machine, params|
   machine.ssh_and_check_result("command" => "chkconfig --add nagios")
   machine.ssh_and_check_result("command" => "chkconfig nagios on")
   
+  machine.append_to_file("file_name" => "/usr/local/nagios/etc/nagios.cfg", "content" => "cfg_dir=/usr/local/nagios/etc/objects/linux")
+  
   machine.ssh_and_check_result("command"=> "/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg") # TODO parse for "Things look okay"
   
   machine.start_unix_service("name" => "nagios")
