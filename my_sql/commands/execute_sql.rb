@@ -1,4 +1,4 @@
-description "executes the given sql statement"
+description "executes the given sql statement (wrapper for the mysql CLI)"
 
 param :machine
 param "statement", "the statement to execute", :mandatory => true
@@ -9,6 +9,7 @@ param "xml", "enables XML output (the -X option)"
 
 on_machine do |machine, params|
   
+  
   sql_statement = params["statement"]
   $logger.info("sql on #{machine.name} : #{sql_statement}")
   
@@ -16,6 +17,9 @@ on_machine do |machine, params|
   
   user = params.has_key?('user') ? params['user'] : mysql_user(machine, params["database"])
   mysql_command += " -u#{user}"
+  
+  mysql_host = params.has_key?('mysql_host') ? params["mysql_host"] : machine.db_host()
+  mysql_command += " -h #{mysql_host}"
   
   if params.has_key?('password')      
     mysql_command += " -p#{params["password"]}"
