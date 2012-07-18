@@ -12,7 +12,7 @@ param "as_tsv", "if 'true' exports the database in tab-separated value format", 
 param "table_whitelist", "an optional list of table names that should be dumped. if specified, then exactly one database needs to be selected", :allows_multiple_values => true
 param "table_blacklist", "an optional list of table names that should not be dumped. if specified, then exactly one database needs to be selected", :allows_multiple_values => true
 param "target_filename", "the fully qualified filename into which the dump should be written."
-param "skip_check", "if set to 'true', will not check afterwards (using lisT_dumps) if the dump has been created.", {
+param "skip_check", "if set to 'true', will not check afterwards (using list_dumps) if the dump has been created.", {
 		:lookup_method => lambda do
           %w|true false|
         end

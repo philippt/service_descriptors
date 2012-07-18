@@ -6,10 +6,9 @@ on_machine do |machine, params|
   
   machine.ssh_and_check_result("command" => 'cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -')
   
-  t = Thread.new do
-    machine.ssh("command" => "nohup ~/.dropbox-dist/dropboxd 2>&1 > ~/dropboxd.log &")
-  end
-  sleep 2
+  machine.start_background_process("directory" => '.', "command_line" => "~/.dropbox-dist/dropboxd", "log_file" => "~/dropboxd.log")
+  
+  sleep 10
   
   machine.read_file("file_name" => "dropboxd.log").each do |line|
     if matched = /Please visit (http\S+) to link/.match(line)

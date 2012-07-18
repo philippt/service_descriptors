@@ -62,14 +62,16 @@ def mysql_password(host, db_name = nil)
     nil
 end
 
-def mysql_credentials(host, db_name = nil)
-  result = "-u" + mysql_user(host, db_name)
-  password = mysql_password(host, db_name)
+def mysql_credentials(machine, db_name = nil)
+  options = machine.mysql_options
+  
+  result = "-u" + options["mysql_user"]
+  password = options["mysql_password"]
   if password != nil
     result += " -p" + password
   end
-  if mysql_socket(host) != ''
-    result += " -S" + mysql_socket(host)
+  if options["mysql_socket"] != nil
+    result += " -S" + options["mysql_socket"]
   end
   result
 end

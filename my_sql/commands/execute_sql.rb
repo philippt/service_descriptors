@@ -3,8 +3,9 @@ description "executes the given sql statement (wrapper for the mysql CLI)"
 param :machine
 param "statement", "the statement to execute", :mandatory => true
 param "database", "the database on which the statement should be executed"
-param "user", "the user for the connection (default : root)"
+param "user", "the user for the connection"
 param "password", "the password to use for the connection (default : none)"
+param "socket", "the socket to use for the connection (default: none)"
 param "xml", "enables XML output (the -X option)"
 
 on_machine do |machine, params|
@@ -15,25 +16,25 @@ on_machine do |machine, params|
   
   mysql_command = "mysql"
   
-  user = params.has_key?('user') ? params['user'] : mysql_user(machine, params["database"])
+  options = machine.mysql_options
+  
+  
+  socket = params.has_key?('socket') ? params['socket'] : options["mysql_socket"]  
+  if socket != nil 
+    mysql_command += " -S #{socket}"
+  end
+   
+  mysql_host = params.has_key?('mysql_host') ? params["mysql_host"] : machine.db_host()
+  mysql_command += " -h #{mysql_host}" unless socket != nil # TODO is that so?
+  
+  user = params.has_key?('user') ? params['user'] : options["mysql_user"]
   mysql_command += " -u#{user}"
   
-  mysql_host = params.has_key?('mysql_host') ? params["mysql_host"] : machine.db_host()
-  mysql_command += " -h #{mysql_host}"
-  
-  if params.has_key?('password')      
-    mysql_command += " -p#{params["password"]}"
-  else
-    password = mysql_password(machine, params["database"])
-    if password != nil
-      mysql_command += " -p#{password}"
-    end
+  password = params.has_key?('password') ? params['password'] : options["mysql_password"]    
+  if password != nil
+    mysql_command += " -p#{password}"
   end
   
-  configured_socket = config_string('mysql_socket', '')
-  if configured_socket != '' 
-    mysql_command += " -S #{configured_socket}"
-  end 
   
   if params.has_key?('database')
     mysql_command += " -D" + params['database']

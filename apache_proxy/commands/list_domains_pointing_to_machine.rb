@@ -4,6 +4,8 @@ param :machine
 
 display_type :list
 
+mark_as_read_only
+
 on_machine do |machine, params|
   ip = machine.ipaddress
   

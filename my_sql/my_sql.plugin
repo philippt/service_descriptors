@@ -1,6 +1,26 @@
-dependencies [ :bash, :machines, :core, :ssh_connector ]
+dependencies [ :bash, :machines, :core, :ssh_connector, :drop_dir ]
 
 config_param "mysql_user", "the default user to use for database connections"
 config_param "mysql_password", "the default password to use for database connections"
 config_param "dump_dir", "the directory where dumps should be stored"
 config_param "mysql_socket", "the mysql socket to use for database connections"
+
+config_param "mysql_options_dropdir", "a dropdir on the virtualop holding mysql connection options"
+
+on_init do |plugin, config|
+  require 'helpers/drop_dir_provider'
+  
+  if plugin.config.has_key?('mysql_options_dropdir')
+	  dir_name = config["mysql_options_dropdir"]
+	  
+	  provider = DropDirProvider.new(@op,
+		  :host => "localhost",
+		  :user => "root",
+		  :directory => dir_name,
+		  :extension_filter => '\.conf'
+	  )
+	  plugin.state[:drop_dir] = provider
+	  Dir.mkdir(dir_name) unless File.exists?(dir_name)
+  end
+end
+
