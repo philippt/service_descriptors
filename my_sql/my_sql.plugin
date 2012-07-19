@@ -5,7 +5,7 @@ config_param "mysql_password", "the default password to use for database connect
 config_param "dump_dir", "the directory where dumps should be stored"
 config_param "mysql_socket", "the mysql socket to use for database connections"
 
-config_param "mysql_options_dropdir", "a dropdir on the virtualop holding mysql connection options"
+config_param "mysql_options_dropdir", "a dropdir on the virtualop machine holding mysql connection options", :default_value => "#{@op.config_base_dir}/mysql"
 
 on_init do |plugin, config|
   require 'helpers/drop_dir_provider'
