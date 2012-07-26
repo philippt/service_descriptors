@@ -45,6 +45,7 @@ def mysql_xml_to_rhcp_graph(data)
 end
 
 def dump_dir
+  # TODO merge with local_backup_dir from data_repo
   s = config_string('dump_dir', '/home/webadmin/tmp')
   s += '/' unless /\/$/.match(s)
   s
