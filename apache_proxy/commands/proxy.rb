@@ -2,7 +2,11 @@ description "returns the name of the proxy living on the same host as the specif
 
 param :machine
 
+#mark_as_read_only
+
 on_machine do |machine, params|
   host_name = machine.name.split('.')[1..10].join('.')
-  "proxy." + host_name  
+  hypothetical_name = "proxy." + host_name  
+  @op.list_machines.select { |x| x["name"] == hypothetical_name }.size > 0 ?
+    hypothetical_name : nil  
 end
