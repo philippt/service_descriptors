@@ -1,7 +1,8 @@
 description 'configures a reverse proxy virtualop host on the proxy machine sitting on the same host as the selected machine'
 
 param :machine
-param "domain", "the domain at which the service should be available", :mandatory => true
+param! "domain", "the domain at which the service should be available"
+param "timeout", "configuration for the ProxyTimeout directice - timeout in seconds to wait for a proxied response"
 
 on_machine do |machine, params|
   host_name = machine.name.split('.')[1..10].join('.')

@@ -1,6 +1,7 @@
 mysql-server
 php
+gd
+php-gd
 php-mbstring
 php-mysql
 php-xml
-php-gd

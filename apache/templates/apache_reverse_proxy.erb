@@ -9,4 +9,7 @@
     ProxyPassReverse / <%= params["target_url"] %>
 
     ProxyPreserveHost On
+    <% if params.has_key?("timeout") %>
+    ProxyTimeout <%= params["timeout"] %>
+    <% end %>
 </VirtualHost>
