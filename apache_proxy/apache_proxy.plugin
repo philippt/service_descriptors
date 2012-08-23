@@ -2,3 +2,5 @@ dependency :core
 dependency :machines
 dependency :erb_processor
 dependency :apache
+
+dependency :machine_crawler

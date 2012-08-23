@@ -1,2 +1,0 @@
-philippt/service_descriptors/apache/add_reverse_proxy(:server_name => '', :target_url
-add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://localhost:8080/")

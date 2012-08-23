@@ -6,6 +6,8 @@ display_type :list
 
 mark_as_read_only
 
+include_for_crawling
+
 execute do |params|
   result = []
   params["machine"].each do |machine_name|
