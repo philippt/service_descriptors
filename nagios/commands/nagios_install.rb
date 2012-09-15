@@ -43,13 +43,15 @@ on_machine do |machine, params|
   
   machine.ssh_and_check_result("command"=> "/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg") # TODO parse for "Things look okay"
 
+
+
   @op.with_machine("localhost") do |localhost|
     command_dir = @plugin.path + '/nagios_commands_local'
     localhost.list_files("directory" => command_dir).each do |nagios_command|
-      @op.add_extra_command(
-        "nagios_machine" => machine.name,
-        "file_name" => nagios_command, 
-        "content" => localhost.read_file("file_name" =>  "#{command_dir}/#{nagios_command}")
+      machine.write_file(
+        "target_filename" => '/usr/local/nagios/etc/objects/extra_commands/' + nagios_command, 
+        "content" => localhost.read_file("file_name" =>  "#{command_dir}/#{nagios_command}"),
+        "ownership" => "nagios:"
       )
     end
   end
