@@ -1,3 +1,18 @@
+def param_database(options = {})
+  merge_options_with_defaults(options, {
+    :mandatory => true,
+    :lookup_method => lambda { |request|
+      @op.with_machine(request.get_param_value('machine')) do |machine|
+        machine.list_databases.map do |database|
+          database["name"]
+        end
+      end
+    },
+    :autofill_context_key => 'database'
+  })
+  RHCP::CommandParam.new("database", "a database to work with", options)
+end
+
 
 def param_one_database(description="the database to work with",mandatory=true)
   RHCP::CommandParam.new("database", description,

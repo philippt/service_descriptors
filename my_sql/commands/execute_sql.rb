@@ -1,8 +1,8 @@
 description "executes the given sql statement (wrapper for the mysql CLI)"
 
 param :machine
+param :database, "the database against which the statement should be executed", :mandatory => false
 param "statement", "the statement to execute", :mandatory => true
-param "database", "the database on which the statement should be executed"
 param "user", "the user for the connection"
 param "password", "the password to use for the connection (default : none)"
 param "socket", "the socket to use for the connection (default: none)"

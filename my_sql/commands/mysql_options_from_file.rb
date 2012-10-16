@@ -5,5 +5,5 @@ param :machine
 contributes_to :mysql_options
 
 on_machine do |machine, params|
-  @plugin.state[:drop_dir].read_local_dropdir.select { |x| x["machine"] == params["machine"] }
+  @plugin.state[:drop_dir].read_local_dropdir.select { |x| x["machine"] == params["machine"] }.first
 end

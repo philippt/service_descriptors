@@ -1,7 +1,7 @@
 description "lists the tables in the specified database"
 
 param :machine
-param :one_database
+param :database
 
 add_columns [ :name ]
 
