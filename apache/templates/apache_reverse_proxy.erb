@@ -12,4 +12,8 @@
     <% if params.has_key?("timeout") %>
     ProxyTimeout <%= params["timeout"] %>
     <% end %>
+    
+	LogLevel warn
+    ErrorLog /var/log/httpd/<%= params["server_name"] %>.error.log
+    CustomLog /var/log/httpd/<%= params["server_name"] %>.vop.access.log vop
 </VirtualHost>

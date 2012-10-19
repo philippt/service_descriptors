@@ -499,6 +499,7 @@ LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combine
 LogFormat "%h %l %u %t \"%r\" %>s %b" common
 LogFormat "%{Referer}i -> %U" referer
 LogFormat "%{User-agent}i" agent
+LogFormat "%{%s}t %t %{Host}i %h %{X-Forwarded-For}i %>s %bb %Dmicros %u \"%r\" \"%{Referer}i\" \"%{User-agent}i\"" vop
 
 # "combinedio" includes actual counts of actual bytes received (%I) and sent (%O); this
 # requires the mod_logio module to be loaded.
