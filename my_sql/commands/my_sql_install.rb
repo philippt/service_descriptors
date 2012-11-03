@@ -1,17 +1,10 @@
-runlevel "infrastructure"
+param :machine
 
-names = {
-  "centos" => "mysqld",
-  "ubuntu" => "mysql"
-}
-unix_service names
-
-post_installation do |machine, params|
+on_machine do |machine, params|
   begin
     # TODO we can do this only once
-    # TODO hardcoded password
     new_password = 'the_password'
     machine.ssh_and_check_result("command" => "mysqladmin -u root password #{new_password}")
   rescue
-  end
+  end   
 end
