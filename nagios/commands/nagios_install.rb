@@ -71,6 +71,7 @@ on_machine do |machine, params|
     options["ssh_#{k}"] = v 
   end
   options["ssh_user"] = "nagios"
+  # TODO that's an ugly hack that doesn't survive if ~/.vop_known_machines is deleted/rewritten (could be that it's already not necessary anymore)
   options["name"] = "nagios@#{machine.name}"
   @op.add_known_machine(options)
   

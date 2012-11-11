@@ -17,7 +17,7 @@ on_machine do |machine, params|
       h = {
         "file_name" => directory + "/" + file_name
       }
-      machine.ssh_and_check_result("command" => "cat #{directory}/#{file_name}").split("\n").each do |line|
+      machine.read_lines(h).each do |line|
         if matched = /ServerName\s+(.+)/.match(line)
           h["domain"] = matched.captures.first
         elsif matched = /ProxyPass\s+\/\s+(.+)/.match(line)
@@ -26,7 +26,10 @@ on_machine do |machine, params|
             h["target_ip"] = inner_match.captures.first
           end
         elsif matched = /DocumentRoot\s+(.+)/.match(line)
-          h["document_root"] = matched.captures.first        
+          h["document_root"] = matched.captures.first
+        elsif matched = /CustomLog\s+(.+)\s+(.+)/.match(line)
+          h["log_path"] = matched.captures.first
+          h["log_format"] = matched.captures.last        
         end        
       end
       result << h unless h.keys.size == 0

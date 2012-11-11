@@ -11,4 +11,8 @@
         Order allow,deny
         allow from all
     </Directory>
+    
+	LogLevel warn
+    ErrorLog /var/log/httpd/<%= params["server_name"] %>.error.log
+    CustomLog /var/log/httpd/<%= params["server_name"] %>.vop.access.log vop
 </VirtualHost>
