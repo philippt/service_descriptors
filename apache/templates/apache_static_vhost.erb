@@ -10,6 +10,8 @@
         AllowOverride None
         Order allow,deny
         allow from all
+        
+        <%= @directory_includes %>
     </Directory>
     
 	LogLevel warn
