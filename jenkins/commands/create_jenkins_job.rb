@@ -1,9 +1,11 @@
 description "creates a new jenkins job configuration"
 
 param! "command_string", "the command line that should be executed if the jenkins job is executed"
+param "job_name", "name for the job to be created"
 
 execute do |params|
-  job_name = URI.escape(params["command_string"])
+  job_name = (params.has_key?("job_name") and (params["job_name"] != '')) ? params["job_name"] : params["command_string"]
+  job_name = URI.escape(job_name)
     
   job_exists = @op.list_jenkins_jobs.select do |job|
     job["name"] == job_name
