@@ -17,4 +17,7 @@ on_machine do |machine, params|
     "url" => "https://raw.github.com/justintime/nagios-plugins/master/check_mem/check_mem.pl"
   )
   machine.chmod("file_name" => "#{target_dir}/*", "permissions" => "+x")
+  
+  machine.add_service_config("service_description" => "memory", "check_command" => "check_mem_by_ssh")
+  @op.reload_nagios()
 end
