@@ -14,6 +14,6 @@
     <% end %>
     
 	LogLevel warn
-    ErrorLog /var/log/httpd/<%= params["server_name"] %>.error.log
-    CustomLog /var/log/httpd/<%= params["server_name"] %>.vop.access.log vop
+    ErrorLog <%= apache_log_dir %>/<%= params["server_name"] %>.error.log
+    CustomLog <%= apache_log_dir %>/<%= params["server_name"] %>.vop.access.log vop
 </VirtualHost>
