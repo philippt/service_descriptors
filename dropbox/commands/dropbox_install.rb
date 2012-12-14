@@ -6,18 +6,20 @@ on_machine do |machine, params|
   
   machine.ssh_and_check_result("command" => 'cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -')
   
-  machine.start_background_process("directory" => '.', "command_line" => "~/.dropbox-dist/dropboxd", "log_file" => "~/dropboxd.log")
+  #machine.start_background_process("directory" => '.', "command_line" => "~/.dropbox-dist/dropboxd", "log_file" => "~/dropboxd.log")
   
-  sleep 10
+  #sleep 10
   
-  machine.read_file("file_name" => "dropboxd.log").each do |line|
-    if matched = /Please visit (http\S+) to link/.match(line)
-      url = matched.captures.first
-      @op.comment("message" => "should hit #{url} now")
-      
-      message = read_local_template(:mail, binding())    
-      @op.send_mail("message" => message)
-      break
+  unless true
+    machine.read_file("file_name" => "dropboxd.log").each do |line|
+      if matched = /Please visit (http\S+) to link/.match(line)
+        url = matched.captures.first
+        @op.comment("message" => "should hit #{url} now")
+        
+        message = read_local_template(:mail, binding())    
+        @op.send_mail("message" => message)
+        break
+      end
     end
   end
   

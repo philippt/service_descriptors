@@ -4,3 +4,5 @@ dependency :erb_processor
 
 config_param! "jenkins_url", "the URL where jenkins can be found"
 config_param "vop_command", "the command to run virtualop commands from a jenkins context", :default_value => "/root/virtualop/bin/vop_shell -f -l"
+
+tags :ci

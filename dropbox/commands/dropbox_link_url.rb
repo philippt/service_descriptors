@@ -4,7 +4,7 @@ param :machine
 
 on_machine do |machine, params|
   result = ''
-  machine.read_file("file_name" => "dropboxd.log").each do |line|
+  machine.read_file("file_name" => "log/dropbox.log").each do |line|
     if matched = /Please visit (http\S+) to link/.match(line)
       result = matched.captures.first
       #break

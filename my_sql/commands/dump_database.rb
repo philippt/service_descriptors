@@ -51,7 +51,7 @@ on_machine do |machine, params|
     end
 
     # and go for it:
-    machine.ssh_and_check_result("command" => "mkdir #{target_dir_name}") unless machine.file_exists("file_name" => target_dir_name)
+    machine.mkdir("dir_name" => target_dir_name) unless machine.file_exists("file_name" => target_dir_name)
 
     # now create the dumps for all local databases
     local_dbs = machine.list_databases.select do |item|

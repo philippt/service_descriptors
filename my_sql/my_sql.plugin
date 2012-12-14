@@ -24,3 +24,5 @@ on_init do |plugin, config|
   end
 end
 
+tags :database
+

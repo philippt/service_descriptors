@@ -14,7 +14,8 @@ on_machine do |machine, params|
       name_components = matcher.captures[1].split("_")
       result_hash = {
         "name" => "" + matcher.captures[0],
-        "date" => name_components.last
+        "date" => name_components.last,
+        "file_name" => dump_dir + '/' + file
       }
       result_hash["host"] = "" + name_components[0].to_s if name_components.size > 1
       result_hash["service"] = name_components[1].to_s if name_components.size > 2

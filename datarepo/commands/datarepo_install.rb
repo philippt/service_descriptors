@@ -9,4 +9,7 @@ on_machine do |machine, params|
   domain = params["domain"]
   machine.add_static_vhost("server_name" => domain, "document_root" => params["repo_dir"], "twist" => "Dav On")
   machine.configure_reverse_proxy("domain" => domain)
+
+  machine.rm("file_name" => "/var/www/index.html")
+  machine.restart_service("service" => "apache")
 end
