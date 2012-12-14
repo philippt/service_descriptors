@@ -7,6 +7,8 @@ param "timeout", "configuration for the ProxyTimeout directice - timeout in seco
 on_machine do |machine, params|
   host_name = machine.name.split('.')[1..10].join('.')
   proxy_name = "proxy." + host_name
+    
+  
   @op.with_machine(proxy_name) do |proxy|
     p = {"server_name" => [ params["domain"] ], "target_url" => "http://#{machine.ipaddress}/"}
     p["timeout"] = params["timeout"] if params.has_key?("timeout")
