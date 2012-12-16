@@ -3,15 +3,14 @@ description 'configures a reverse proxy virtualop host on the proxy machine sitt
 param :machine
 param! "domain", "the domain at which the service should be available"
 param "timeout", "configuration for the ProxyTimeout directice - timeout in seconds to wait for a proxied response"
+param "proxy", "name of the machine where the proxy is running"
 
 on_machine do |machine, params|
-  host_name = machine.name.split('.')[1..10].join('.')
-  proxy_name = "proxy." + host_name
-    
+  
+  proxy_name = params["proxy"] || machine.proxy
   
   @op.with_machine(proxy_name) do |proxy|
-    p = {"server_name" => [ params["domain"] ], "target_url" => "http://#{machine.ipaddress}/"}
-    p["timeout"] = params["timeout"] if params.has_key?("timeout")
+    p = {"server_name" => [ params["domain"] ], "target_url" => "http://#{machine.ipaddress}/"}.merge_from params, :timeout, :invalidation
     proxy.add_reverse_proxy(p)
     proxy.restart_unix_service("name" => "httpd")
   end

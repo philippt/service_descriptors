@@ -3,4 +3,5 @@ dependency :machines
 dependency :erb_processor
 dependency :apache
 
+dependency :machine_groups
 dependency :machine_crawler

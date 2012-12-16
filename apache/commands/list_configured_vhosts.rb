@@ -32,6 +32,9 @@ on_machine do |machine, params|
           h["log_format"] = matched.captures.last        
         end        
       end
+      h.values.each do |x| 
+        x.strip!
+      end
       result << h unless h.keys.size == 0
     end
   end
