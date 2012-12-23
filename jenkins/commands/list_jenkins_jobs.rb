@@ -11,14 +11,18 @@ execute do |params|
   as_object = JSON.parse(json_data)
   as_object["jobs"].each do |job|
     xml_job = @op.http_get("url" => "#{config_string('jenkins_url')}/job/#{job_name_http("job_name" => job["name"])}/config.xml")
-    xmldata = XmlSimple.xml_in(xml_job)
-      
-    result << {
-      "name" => job["name"],
-      "disabled" => xmldata["disabled"].first,
-      "xmldata" => xml_job,
-      "data" => xmldata
-    }
+    begin
+      xmldata = XmlSimple.xml_in(xml_job)
+        
+      result << {
+        "name" => job["name"],
+        "disabled" => xmldata.has_key?("disabled") && xmldata["disabled"].first,
+        "xmldata" => xml_job,
+        "data" => xmldata
+      }
+    rescue => detail
+      $logger.warn "could not read jenkins job details for #{job["name"]} : #{detail.message}"
+    end
   end
 
   result

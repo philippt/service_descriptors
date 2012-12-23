@@ -13,7 +13,7 @@ execute do |params|
   last_build_so_far = nil
   
   @op.without_cache do
-    builds = @op.list_builds_for_job(params).sort do |b,a|
+    builds = @op.list_builds_for_job(params["jenkins_job"]).sort do |b,a|
       a["number"] <=> b["number"]
     end
     if builds.size > 0

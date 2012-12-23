@@ -1,6 +1,6 @@
 description "returns a list of past executions for the specified jenkins job"
 
-param! :jenkins_job
+param! :jenkins_job, :default_param => true
 
 add_columns [ :number, :url ]
 
