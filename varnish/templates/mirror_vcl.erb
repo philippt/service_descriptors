@@ -1,0 +1,52 @@
+backend default {
+    .host = "<%= params["backend_host"] %>";
+    .port = "<%= params["backend_port"] %>";
+}
+
+# based on http://www.lullabot.com/sites/lullabot.com/files/default_varnish3.vcl_.txt and
+# http://blogs.osuosl.org/gchaix/2010/01/23/varnish-config-defaultvcl/
+
+sub vcl_recv {
+  # Use anonymous, cached pages if all backends are down.
+  if (!req.backend.healthy) {
+    unset req.http.Cookie;
+  }
+  
+  set req.grace = 24h;
+  
+  # Handle compression correctly. Different browsers send different
+  # "Accept-Encoding" headers, even though they mostly all support the same
+  # compression mechanisms. By consolidating these compression headers into
+  # a consistent format, we can reduce the size of the cache and get more hits.=
+  # @see: http:// varnish.projects.linpro.no/wiki/FAQ/Compression
+  if (req.http.Accept-Encoding) {
+    if (req.http.Accept-Encoding ~ "gzip") {
+      # If the browser supports it, we'll use gzip.
+      set req.http.Accept-Encoding = "gzip";
+    }
+    else if (req.http.Accept-Encoding ~ "deflate") {
+      # Next, try deflate if it is supported.
+      set req.http.Accept-Encoding = "deflate";
+    }
+    else {
+      # Unknown algorithm. Remove it and send unencoded.
+      unset req.http.Accept-Encoding;
+    }
+  }
+
+}
+
+sub vcl_fetch {
+  # Don't allow static files to set cookies.
+  if (req.url ~ "(?i)\.(png|gif|jpeg|jpg|ico|swf|css|js|html|htm|rpm|iso)(\?[a-z0-9]+)?$") {
+    # beresp == Back-end response from the web server.
+    unset beresp.http.set-cookie;
+  }
+  
+  if (!beresp.http.expires) {
+  	set beresp.http.expires = "Mon, 1 Jan 2042 23:59:59 GMT";
+  }
+
+  # Allow items to be stale if needed.
+  set beresp.grace = 24h;
+}

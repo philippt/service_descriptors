@@ -4,6 +4,8 @@ param :machine
 param! "backend_host", "the backend host name or IP that should be proxied"
 param! "backend_port", "the port name on which the backend server is listening", 
   :default_value => 80
+param "template_name", "an alternative template that should be used", :default_value => "default_vcl"
+
   
 on_machine do |machine, params|
   case machine.linux_distribution.split("_").first
@@ -16,7 +18,7 @@ on_machine do |machine, params|
     machine.ssh_and_check_result("command" => "sudo cp #{temp_file_name} #{real_path}")
     machine.rm("file_name" => temp_file_name)
   else
-    process_local_template(:default_vcl, machine, "/etc/varnish/default.vcl", binding())
+    process_local_template(params["template_name"].to_sym, machine, "/etc/varnish/default.vcl", binding())
   end    
 end
 
