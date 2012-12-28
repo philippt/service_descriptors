@@ -1,6 +1,6 @@
 param :machine, "the proxy machine where the config should be generated", :mandatory => false
 param :machine_group
-param "blacklist", "machines for which config should not generated", :allows_multiple_values => true, :default_value => []
+param "blacklist", "machines for which config should not be generated", :allows_multiple_values => true, :default_value => []
 
 add_columns [ :machine, :status ]
 
