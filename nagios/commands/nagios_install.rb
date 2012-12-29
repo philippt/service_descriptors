@@ -5,7 +5,8 @@ param! "domain", "the domain at which nagios should be made available"
 
 on_machine do |machine, params|
   # TODO this block works only once
-  machine.ssh_and_check_result("command" => "useradd -m nagios")
+  # TODO the user is created through check_load, apparently
+  #machine.ssh_and_check_result("command" => "useradd -m nagios")
   machine.ssh_and_check_result("command" => "/usr/sbin/groupadd nagcmd")
   machine.ssh_and_check_result("command" => "/usr/sbin/usermod -a -G nagcmd nagios")
   machine.ssh_and_check_result("command" => "/usr/sbin/usermod -a -G nagcmd apache")
