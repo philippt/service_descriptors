@@ -11,17 +11,19 @@ execute do |params|
     job["name"] == job_name
   end.size > 0
 
-  unless job_exists
-    temp_file_name = Tempfile.new("virtualop_jenkins_template", '/tmp').path
-    @op.with_machine("localhost") do |localhost|
-      process_local_template(:blank_job, localhost, temp_file_name, binding())
-      localhost.http_post(
-        "target_url" => "#{config_string('jenkins_url')}/createItem?name=#{job_name_http("job_name" => job_name)}",
-        "extra_headers" => "Content-Type: application/xml;charset=UTF-8",
-        "data_file" => temp_file_name
-      )
-    end    
+  if job_exists
+    @op.delete_jenkins_job("jenkins_job" => params["job_name"])
   end
+
+  temp_file_name = Tempfile.new("virtualop_jenkins_template", '/tmp').path
+  @op.with_machine("localhost") do |localhost|
+    process_local_template(:blank_job, localhost, temp_file_name, binding())
+    localhost.http_post(
+      "target_url" => "#{config_string('jenkins_url')}/createItem?name=#{job_name_http("job_name" => job_name)}",
+      "extra_headers" => "Content-Type: application/xml;charset=UTF-8",
+      "data_file" => temp_file_name
+    )
+  end    
 
   sleep 1
 

@@ -1,3 +1,3 @@
 unix_service "pdns"
 
-tcp_endpoint 53
+udp_endpoint 53
