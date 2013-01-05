@@ -3,7 +3,12 @@ description "installs an apache httpd server"
 param :machine
 
 on_machine do |machine, params|
-  machine.rm("file_name" => "/etc/httpd/conf.d/welcome.conf") if machine.file_exists("file_name" => "/etc/httpd/conf.d/welcome.conf")
+  # TODO for some reason, it seems that the cache for file_exists ".../welcome.conf" isn't invalidated correctly
+  @op.without_cache do
+    if machine.file_exists("file_name" => "/etc/httpd/conf.d/welcome.conf")
+      machine.rm("file_name" => "/etc/httpd/conf.d/welcome.conf")
+    end 
+  end
     
   if machine.linux_distribution.split("_").first == "centos"
     process_local_template(:httpd_conf, machine, "/etc/httpd/conf/httpd.conf", binding()) 
