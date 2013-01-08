@@ -1,8 +1,11 @@
 <VirtualHost *:80>
     #ServerAdmin webmaster@localhost
 
-    ServerName <%= params["server_name"].first %>
-    <%# TODO handle the other server names %>
+	<% names = params["server_name"] %>
+    ServerName <%= names.first %>
+    <% names[1..names.size-1].each do |name| %>
+    ServerAlias <%= name %>
+    <% end %>
 
 	<%# TODO make sure target_url ends with a slash %>
     ProxyPass / <%= params["target_url"] %>

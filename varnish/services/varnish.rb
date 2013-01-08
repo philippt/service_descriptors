@@ -1,2 +1,2 @@
-http_endpoint 6081
+tcp_endpoint 6081
 unix_service "varnish"
