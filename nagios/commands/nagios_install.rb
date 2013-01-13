@@ -77,6 +77,7 @@ on_machine do |machine, params|
   
   # TODO and in generate_nagios_config, we put the nagios public key onto the target machine
   
+  @op.flush_cache()
   machine.start_unix_service("name" => "nagios")
   machine.restart_unix_service("name" => "httpd")
   
