@@ -2,7 +2,8 @@ runlevel "infrastructure"
 
 names = {
   "centos" => "mysqld",
-  "ubuntu" => "mysql"
+  "ubuntu" => "mysql",
+  "sles" => "mysql"
 }
 unix_service names
 

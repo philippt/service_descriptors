@@ -2,4 +2,4 @@ unix_service "rabbitmq-server"
 
 runlevel :infrastructure
 
-tcp_endpoint 5672
+#tcp_endpoint 5672
