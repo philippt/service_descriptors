@@ -7,6 +7,8 @@ names = {
 }
 unix_service names
 
+log_file "/var/log/httpd/access_log", :format => "combined"
+
 on_install do |machine, service_root, params|
   machine.rm("file_name" => "/etc/httpd/conf.d/welcome.conf") if machine.file_exists("file_name" => "/etc/httpd/conf.d/welcome.conf")
     
