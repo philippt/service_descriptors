@@ -11,8 +11,9 @@ on_machine do |machine, params|
   if params.has_key?('domain')    
     machine.install_canned_service("service" => "apache/apache")
     machine.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://localhost:8080/")
-    machine.restart_unix_service("name" => "httpd")
+    machine.restart_service("service" => "apache")
+    #machine.restart_unix_service("name" => "httpd")
     
-    machine.configure_reverse_proxy("domain" => params["domain"])
+    machine.configure_reverse_proxy("domain" => params["domain"]) if machine.proxy
   end
 end
