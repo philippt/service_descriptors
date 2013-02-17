@@ -7,6 +7,7 @@ param "document_root", "fully qualified path to the directory holding the static
 param "twist", "some extra content that should be included in the Directory section of the generated config"
 
 on_machine do |machine, params|
+  # TODO handle other domains
   first_domain = params["server_name"].first
   
   @directory_includes = params.has_key?("twist") ? params["twist"] : ""
