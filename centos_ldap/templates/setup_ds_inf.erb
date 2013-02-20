@@ -1,0 +1,21 @@
+[General]
+FullMachineName=         <%= external_full_name %>
+SuiteSpotUserID=         ldap
+SuiteSpotGroup=          ldap
+AdminDomain=             <%= params["external_domain"] %>
+[slapd]
+SlapdConfigForMC=        Yes
+UseExistingMC=           0
+ServerPort=              389
+ServerIdentifier=        <%= machine_short_name %>
+Suffix=                  <%= ldap_suffix %>
+RootDN=                  cn=manager
+RootDNPwd=               the_password
+InstallLdifFile=         suggest
+AddOrgEntries=           Yes
+[admin]
+SysUser=                 ldap
+Port=                    9830
+ServerIpAddress=         <%= machine.ipaddress %>
+ServerAdminID=           admin
+ServerAdminPwd=          the_password
