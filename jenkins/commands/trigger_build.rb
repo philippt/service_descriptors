@@ -46,9 +46,13 @@ execute do |params|
       result = last_build_now["number"]
     end
   else
-    result = (last_build_so_far["number"] || 0) + 1 # TODO a bit too approximate
+    if last_build_so_far && last_build_so_far.has_key?("number")
+      # TODO a bit too approximate
+      result = last_build_so_far["number"] + 1
+    else
+      result = 1
+    end
   end
-  
   
   result
 end
