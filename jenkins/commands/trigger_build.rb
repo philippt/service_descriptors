@@ -45,6 +45,8 @@ execute do |params|
       
       result = last_build_now["number"]
     end
+  else
+    result = (last_build_so_far || 0) + 1 # TODO a bit too approximate
   end
   
   
