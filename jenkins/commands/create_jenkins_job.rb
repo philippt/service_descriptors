@@ -11,9 +11,7 @@ execute do |params|
     job["name"] == job_name
   end.size > 0
 
-  if job_exists
-    @op.delete_jenkins_job("jenkins_job" => params["job_name"])
-  end
+  @op.delete_jenkins_job("jenkins_job" => params["job_name"]) if job_exists
 
   temp_file_name = Tempfile.new("virtualop_jenkins_template", '/tmp').path
   @op.with_machine("localhost") do |localhost|

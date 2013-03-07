@@ -1,0 +1,8 @@
+dependencies [ :core, :machines, :erb_processor ]
+
+dependency :working_copies
+
+config_param "owncloud_path", "path to the directory where the owncloud data should be synced to", :default_value => '/root/owncloud' # TODO virtual insanity
+
+
+

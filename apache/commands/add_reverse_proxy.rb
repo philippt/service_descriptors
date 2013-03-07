@@ -2,7 +2,7 @@ description 'adds a name-based vhost that acts as reverse proxy (forwarding inco
 
 param :machine
 param "server_name", "the http domain served by this vhost", { :mandatory => true, :allows_multiple_values => true }
-param "target_url", "http url to the backend", :mandatory => true
+param! "target_url", "http url to the backend", :allows_multiple_values => true
 param "timeout", "configuration for the ProxyTimeout directice - timeout in seconds to wait for a proxied response"
 
 on_machine do |machine, params|
