@@ -13,7 +13,8 @@ on_machine do |machine, params|
   if machine.linux_distribution.split("_").first == "centos"
     process_local_template(:httpd_conf, machine, "/etc/httpd/conf/httpd.conf", binding())
   elsif machine.linux_distribution.split("_").first == "sles"
-    machine.ssh_and_check_result("command" => "sed -ie 's/#NameVirtualHost \*:80/NameVirtualHost \*:80/' /etc/apache2/listen.conf")
+    
+    machine.ssh_and_check_result("command" => "sed -i -e 's/#NameVirtualHost \*:80/NameVirtualHost \*:80/' /etc/apache2/listen.conf")
   end
   
   generated_dir = machine.apache_generated_conf_dir
@@ -24,7 +25,7 @@ on_machine do |machine, params|
   machine.allow_access_for_apache("file_name" => target_file_name)
   
  if machine.linux_distribution.split("_").first == "sles"
-    %w|proxy proxy_http|.each do |m|
+    %w|proxy proxy_http proxy_balancer|.each do |m|
       machine.ssh_and_check_result("command" => "a2enmod #{m}")
     end
     process_local_template(:custom_log, machine, "/etc/apache2/conf.d/logformat_vop.conf", binding())
