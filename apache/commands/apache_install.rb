@@ -24,7 +24,7 @@ on_machine do |machine, params|
   process_local_template(:index_html, machine, target_file_name, binding())
   machine.allow_access_for_apache("file_name" => target_file_name)
   
- if machine.linux_distribution.split("_").first == "sles"
+  if machine.linux_distribution.split("_").first == "sles"
     %w|proxy proxy_http proxy_balancer|.each do |m|
       machine.ssh_and_check_result("command" => "a2enmod #{m}")
     end

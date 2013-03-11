@@ -1,4 +1,4 @@
-<VirtualHost *:80>
+<VirtualHost *:<%= params["listen_port"] %>>
     #ServerAdmin webmaster@localhost
 
 	<% names = params["server_name"] %>
