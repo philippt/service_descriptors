@@ -7,7 +7,7 @@ on_machine do |machine, params|
     temp_file_name = machine.home + "/vop_process_local_template__#{Time.now.to_i}.tmp"
     process_local_template(:varnish, machine, temp_file_name, binding())
     real_path = "/etc/default/varnish"
-    machine.ssh_and_check_result("command" => "sudo cp #{temp_file_name} #{real_path}")
+    machine.ssh("command" => "sudo cp #{temp_file_name} #{real_path}")
     machine.rm("file_name" => temp_file_name)
   when "centos"
     process_local_template(:varnish_centos, machine, "/etc/sysconfig/varnish", binding())

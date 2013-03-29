@@ -8,7 +8,7 @@ on_machine do |machine, params|
   else
     installed = machine.list_installed_rpm_packages
 
-    machine.ssh_and_check_result("command" => "zypper install -y jpackage-utils")
+    machine.ssh("command" => "zypper install -y jpackage-utils")
 
     base_url = 'http://download.opensuse.org/repositories/home:/cseader:/java-sun/SLE_11_SP1/x86_64/'
     packages = [
@@ -29,7 +29,7 @@ on_machine do |machine, params|
       )    
     end  
     if machine.file_exists("file_name" => "/root/tmp/*.rpm")
-      machine.ssh_and_check_result("command" => "cd /root/tmp && rpm -Uvh *.rpm")
+      machine.ssh("command" => "cd /root/tmp && rpm -Uvh *.rpm")
       machine.rm("file_name" => "/root/tmp/*.rpm")
     else
       puts "no RPMs to install - probably already installed."

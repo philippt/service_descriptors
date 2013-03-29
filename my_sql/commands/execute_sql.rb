@@ -44,5 +44,5 @@ on_machine do |machine, params|
     mysql_command += " -X"
   end
   
-  machine.ssh_and_check_result("command" => "echo \"#{sql_statement};\" | #{mysql_command}")  
+  machine.ssh("command" => "echo \"#{sql_statement};\" | #{mysql_command}")  
 end  

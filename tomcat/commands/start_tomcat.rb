@@ -3,7 +3,7 @@ description "cleans work directories, starts the tomcat and waits for it to be a
 param :machine
 
 on_machine do |machine, params|
-  machine.ssh_and_check_result("command" => "rctomcat6 start")
+  machine.ssh("command" => "rctomcat6 start")
   @op.comment("message" => "waiting for application startup")
   sleep 15
 
@@ -12,7 +12,7 @@ on_machine do |machine, params|
     "interval" => "5",
     "timeout" => "60",
     "condition" => lambda do
-      found_entry = machine.ssh_and_check_result("command" => "tail /var/log/tomcat6/catalina.out").split("\n").select do |line|
+      found_entry = machine.ssh("command" => "tail /var/log/tomcat6/catalina.out").split("\n").select do |line|
         /Server startup in (\d+) ms/.match(line)
       end.size > 0
     end

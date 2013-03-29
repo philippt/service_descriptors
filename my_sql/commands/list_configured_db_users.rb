@@ -12,7 +12,7 @@ on_machine do |machine, params|
     }
 
     file_name = mysql_user_dropdir + '/' + file
-    config_file = machine.ssh_and_check_result(
+    config_file = machine.ssh(
       "command" => "cat #{file_name}",
       "user" => "root"
     )

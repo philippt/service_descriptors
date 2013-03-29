@@ -5,10 +5,10 @@ param! "domain", "the domain at which nagios should be made available"
 
 on_machine do |machine, params|
   # TODO this block works only once
-  machine.ssh_and_check_result("command" => "useradd -m nagios")
-  machine.ssh_and_check_result("command" => "/usr/sbin/groupadd nagcmd")
-  machine.ssh_and_check_result("command" => "/usr/sbin/usermod -a -G nagcmd nagios")
-  machine.ssh_and_check_result("command" => "/usr/sbin/usermod -a -G nagcmd apache")
+  machine.ssh("command" => "useradd -m nagios")
+  machine.ssh("command" => "/usr/sbin/groupadd nagcmd")
+  machine.ssh("command" => "/usr/sbin/usermod -a -G nagcmd nagios")
+  machine.ssh("command" => "/usr/sbin/usermod -a -G nagcmd apache")
   
   machine.mkdir("dir_name" => "/root/downloads")
   machine.wget("url" => "http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.3.1.tar.gz", "target_dir" => "/root/downloads")
@@ -17,22 +17,22 @@ on_machine do |machine, params|
   machine.explode("tar_name" => "/root/downloads/nagios-3.3.1.tar.gz", "working_dir" => "/root/downloads")
   machine.explode("tar_name" => "/root/downloads/nagios-plugins-1.4.*.tar.gz", "working_dir" => "/root/downloads")
   
-  machine.ssh_and_check_result("command" => "cd /root/downloads/nagios && ./configure --with-command-group=nagcmd")
-  machine.ssh_and_check_result("command" => "cd /root/downloads/nagios && make all")
+  machine.ssh("command" => "cd /root/downloads/nagios && ./configure --with-command-group=nagcmd")
+  machine.ssh("command" => "cd /root/downloads/nagios && make all")
   
   %w|install install-init install-commandmode install-config|.each do |phase|
-    machine.ssh_and_check_result("command" => "cd /root/downloads/nagios && make #{phase}")
+    machine.ssh("command" => "cd /root/downloads/nagios && make #{phase}")
   end
   
   #/usr/local/nagios/etc/objects/contacts.cfg
   
-  machine.ssh_and_check_result("command" => "cd /root/downloads/nagios && make install-webconf")
-  machine.ssh_and_check_result("command" => "htpasswd -cb /usr/local/nagios/etc/htpasswd.users nagiosadmin the_password")
+  machine.ssh("command" => "cd /root/downloads/nagios && make install-webconf")
+  machine.ssh("command" => "htpasswd -cb /usr/local/nagios/etc/htpasswd.users nagiosadmin the_password")
   
-  machine.ssh_and_check_result("command" => "cd downloads/nagios-plugins-1.4.* && ./configure --with-nagios-user=nagios --with-nagios-group=nagios && make && make install")
+  machine.ssh("command" => "cd downloads/nagios-plugins-1.4.* && ./configure --with-nagios-user=nagios --with-nagios-group=nagios && make && make install")
   
-  machine.ssh_and_check_result("command" => "chkconfig --add nagios")
-  machine.ssh_and_check_result("command" => "chkconfig nagios on")
+  machine.ssh("command" => "chkconfig --add nagios")
+  machine.ssh("command" => "chkconfig nagios on")
   
   %w|extra_commands linux|.each do |dir|
     dir_name = "/usr/local/nagios/etc/objects/#{dir}"
@@ -41,7 +41,7 @@ on_machine do |machine, params|
     machine.append_to_file("file_name" => "/usr/local/nagios/etc/nagios.cfg", "content" => "cfg_dir=#{dir_name}")
   end
   
-  machine.ssh_and_check_result("command"=> "/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg") # TODO parse for "Things look okay"
+  machine.ssh("command"=> "/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg") # TODO parse for "Things look okay"
 
 
 

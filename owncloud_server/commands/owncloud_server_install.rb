@@ -12,21 +12,21 @@ on_machine do |machine, params|
   machine.restart_service("service" => "apache")
   machine.configure_reverse_proxy("domain" => params["domain"])
   
-  machine.ssh_and_check_result("command" => "curl -c cookies.txt -v -o /dev/null http://#{params["domain"]}/index.php")
+  machine.ssh("command" => "curl -c cookies.txt -v -o /dev/null http://#{params["domain"]}/index.php")
   
   # TODO hardcoded install values
   admin_user = 'marvin'
   admin_pwd = 'the_password'
-  machine.ssh_and_check_result("command" => "curl -b cookies.txt -c cookies2.txt -v -d 'install=true&adminlogin=#{admin_user}&adminpass=#{admin_pwd}&directory=%2Fvar%2Fwww%2Fhtml%2Fowncloud%2Fdata&dbtype=sqlite&dbuser=&dbpass=&dbname=&dbhost=localhost' http://#{params["domain"]}/")
+  machine.ssh("command" => "curl -b cookies.txt -c cookies2.txt -v -d 'install=true&adminlogin=#{admin_user}&adminpass=#{admin_pwd}&directory=%2Fvar%2Fwww%2Fhtml%2Fowncloud%2Fdata&dbtype=sqlite&dbuser=&dbpass=&dbname=&dbhost=localhost' http://#{params["domain"]}/")
   @op.comment machine.read_file("file_name" => "cookies2.txt")
 
   if params.has_key?("ldap_host")
     # login as admin
-    machine.ssh_and_check_result("command" => "curl -c cookies3.txt -v -d 'user=#{admin_user}&password=#{admin_pwd}' http://#{params["domain"]}/")
+    machine.ssh("command" => "curl -c cookies3.txt -v -d 'user=#{admin_user}&password=#{admin_pwd}' http://#{params["domain"]}/")
     @op.comment machine.read_file("file_name" => "cookies3.txt")
     
     # get a requesttoken
-    output = machine.ssh_and_check_result("command" => "curl -b cookies3.txt -c cookies4.txt http://#{params["domain"]}/")
+    output = machine.ssh("command" => "curl -b cookies3.txt -c cookies4.txt http://#{params["domain"]}/")
     @op.comment machine.read_file("file_name" => "cookies4.txt")
     token = nil
     output.split("\n").each do |line|
@@ -36,7 +36,7 @@ on_machine do |machine, params|
     end
     @op.comment token
     
-    machine.ssh_and_check_result("command" => "curl -b cookies4.txt -c cookies5.txt -v -o enable_ldap.out -d 'appid=user_ldap&requesttoken=#{token}' http://#{params["domain"]}/settings/ajax/enableapp.php")
+    machine.ssh("command" => "curl -b cookies4.txt -c cookies5.txt -v -o enable_ldap.out -d 'appid=user_ldap&requesttoken=#{token}' http://#{params["domain"]}/settings/ajax/enableapp.php")
     @op.comment machine.read_file("file_name" => "cookies5.txt")
     @op.comment machine.read_file("file_name" => "enable_ldap.out")
     
@@ -52,6 +52,6 @@ on_machine do |machine, params|
     bind_password = params['bind_password']
       
     ldap_config = "ldap_host=#{ldap_host}&ldap_base=#{ldap_base}&ldap_dn=#{bind_user}&ldap_agent_password=#{bind_password}&ldap_login_filter=uid%3D%25uid&ldap_userlist_filter=objectClass%3Dperson&ldap_group_filter=&ldap_port=389&ldap_base_users=&ldap_base_groups=&ldap_group_member_assoc_attribute=uniqueMember&ldap_display_name=uid&ldap_group_display_name=cn&ldap_quota_attr=&ldap_quota_def=&ldap_email_attr=&ldap_cache_ttl=600&home_folder_naming_rule=&requesttoken=#{token}"
-    machine.ssh_and_check_result("command" => "curl -b cookies5.txt -c cookies6.txt -v -d '#{ldap_config}' http://#{params["domain"]}/settings/admin.php")
+    machine.ssh("command" => "curl -b cookies5.txt -c cookies6.txt -v -d '#{ldap_config}' http://#{params["domain"]}/settings/admin.php")
   end
 end

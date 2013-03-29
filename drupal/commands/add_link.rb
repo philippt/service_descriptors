@@ -19,17 +19,17 @@ execute do |params|
   @op.with_machine("localhost") do |machine|
     # login
     data_string = "name=#{params["drupal_user"]}&pass=#{params["drupal_password"]}&form_id=user_login"
-    machine.ssh_and_check_result("command" => "curl -b #{cookie_path} -c #{cookie_path} --data \"#{data_string}\" #{params["drupal_url"]}/?q=user/login")
+    machine.ssh("command" => "curl -b #{cookie_path} -c #{cookie_path} --data \"#{data_string}\" #{params["drupal_url"]}/?q=user/login")
     
     $logger.info "logged in successfully as #{params["drupal_user"]} to #{params["drupal_url"]}."
     
     # add node
     data_string = "type=link&title=#{params["description"]}&field_link[und][0][value]=#{params["link"]}&field_kategorie[und][0]=#{params["category_id"]}"
-    machine.ssh_and_check_result("command" => "curl -b #{cookie_path} -d \"#{data_string}\" \"#{params["drupal_url"]}/?q=#{params["services_endpoint"]}/node\"")
+    machine.ssh("command" => "curl -b #{cookie_path} -d \"#{data_string}\" \"#{params["drupal_url"]}/?q=#{params["services_endpoint"]}/node\"")
     
     # logout
     data_string = "name=#{params["drupal_user"]}&pass=#{params["drupal_password"]}"
-    machine.ssh_and_check_result("command" => "curl -b #{cookie_path} -c #{cookie_path} --data \"#{data_string}\" #{params["drupal_url"]}/?q=user/logout")
+    machine.ssh("command" => "curl -b #{cookie_path} -c #{cookie_path} --data \"#{data_string}\" #{params["drupal_url"]}/?q=user/logout")
     
     machine.rm("file_name" => cookie_path)
   end

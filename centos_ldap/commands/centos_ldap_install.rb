@@ -3,7 +3,7 @@ param :machine
 param! "domain", "the domain for which the LDAP server should be configured (might be bollocks)"
 
 on_machine do |machine, params|
-  machine.ssh_and_check_result("command" => "useradd -m ldap")
+  machine.ssh("command" => "useradd -m ldap")
   
   machine_short_name = machine.name.split('.').first
   
@@ -17,5 +17,5 @@ on_machine do |machine, params|
   
   process_local_template(:setup_ds_inf, machine, machine.home + '/tmp/setup_ds.inf', binding())
   
-  machine.ssh_and_check_result("command" => "setup-ds.pl -s -f tmp/setup_ds.inf")
+  machine.ssh("command" => "setup-ds.pl -s -f tmp/setup_ds.inf")
 end

@@ -13,7 +13,7 @@ add_columns [ :uid, :name ]
 execute do |params|
   result = []
   as_drupal_user(params) do |localhost, cookie_path, params|    
-    users = JSON.parse(localhost.ssh_and_check_result("command" => "curl -s -b #{cookie_path} \"#{params["drupal_url"]}/?q=#{params["services_endpoint"]}/user\""))
+    users = JSON.parse(localhost.ssh("command" => "curl -s -b #{cookie_path} \"#{params["drupal_url"]}/?q=#{params["services_endpoint"]}/user\""))
     users.each do |item|
       result << item
     end

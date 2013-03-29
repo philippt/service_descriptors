@@ -19,7 +19,7 @@ on_machine do |machine, params|
   end
 
   # TODO this does not throw an error if the dump cannot be deleted due to a permission problem
-  machine.ssh_and_check_result("rm -rf #{path_to_dump}")
+  machine.ssh("rm -rf #{path_to_dump}")
 
   # TODO compare list of dumps before and after deleting
 end  

@@ -1,5 +1,5 @@
 param :machine
 
 on_machine do |machine, params|
-  machine.ssh_and_check_result("command" => "rails -v")
+  machine.ssh("command" => "rails -v")
 end

@@ -30,6 +30,6 @@ execute do |params|
       
     #end
     
-    localhost.ssh_and_check_result("command" => "curl -b #{cookie_path} -d \"#{data_string}\" \"#{params["drupal_url"]}/?q=#{params["services_endpoint"]}/user\"")    
+    localhost.ssh("command" => "curl -b #{cookie_path} -d \"#{data_string}\" \"#{params["drupal_url"]}/?q=#{params["services_endpoint"]}/user\"")    
   end
 end

@@ -35,7 +35,7 @@ on_machine do |machine, params|
   
   command_string += " -R #{slaves.join(',')}" unless slaves.size == 0
   
-  output = machine.ssh_and_check_result("command" => command_string)
+  output = machine.ssh("command" => command_string)
   result = output
 #  result = {"unparsed_output" => output}
 #  output.split("\n").each do |line|

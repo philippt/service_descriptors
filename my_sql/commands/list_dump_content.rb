@@ -22,7 +22,7 @@ on_machine do |machine, params|
 
   if machine.file_exists({"file_name" => path_to_dump})
     result = []
-    input = machine.ssh_and_check_result("command" => "ls -1 " + path_to_dump)
+    input = machine.ssh("command" => "ls -1 " + path_to_dump)
     input.split("\n").each do |line|
       line.strip!
       
@@ -39,7 +39,7 @@ on_machine do |machine, params|
     # could be that the whole thing is tarred
     tarball_name = path_to_dump + ".tgz"
     if machine.file_exists("file_name" => tarball_name)
-      tar_content = machine.ssh_and_check_result("command" => "tar -tzf #{tarball_name}")
+      tar_content = machine.ssh("command" => "tar -tzf #{tarball_name}")
       tar_content.split(/\n/).each do |line|
         # the content has been packed relatively to /home/webadmin/tmp, so we need to
         # strip the dump name that is prefixing all entries

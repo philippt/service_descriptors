@@ -8,7 +8,7 @@ on_machine do |machine, params|
     end
     commands << "sudo chown -R ubuntu: /usr/local/nagios/checks"
   end 
-  machine.ssh_and_check_result("command" => commands.join(" && "))
+  machine.ssh("command" => commands.join(" && "))
   
   target_dir = "/usr/local/nagios/checks"
   machine.wget(

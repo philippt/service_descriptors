@@ -16,7 +16,7 @@ add_columns [ :name, :id, :galeriename, :plz, :ort, :url, :email ]
 
 on_machine do |machine, params|
   result = []
-  machine.ssh_and_check_result("command" => "cat #{params["file_name"]}").split("\n").each do |line|      
+  machine.ssh("command" => "cat #{params["file_name"]}").split("\n").each do |line|      
     parts = line.split(";")
     next if parts[1] == "Suchbegriff"
     result << {

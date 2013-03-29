@@ -4,7 +4,7 @@ param :machine
 
 execute do |params|
   @op.with_machine(params["machine"]) do |machine|
-    machine.ssh_and_check_result("command" => "reboot")
+    machine.ssh("command" => "reboot")
   end
   
   @op.flush_cache

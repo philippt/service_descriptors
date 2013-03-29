@@ -83,8 +83,8 @@ on_machine do |machine, params|
       # we've got two possible ways for dumping : standard 'mysqldump' or export as tab-separated values
       if (params.has_key?('as_tsv') && (params['as_tsv'] == "true"))
         target_dir = target_dir_name + "/" + db_name
-        machine.ssh_and_check_result("command" => "mkdir #{target_dir}")
-        machine.ssh_and_check_result("command" => "chmod 777 #{target_dir}")
+        machine.ssh("command" => "mkdir #{target_dir}")
+        machine.ssh("command" => "chmod 777 #{target_dir}")
         machine.show_tables("database" => db_name).each do |table|
           table_file_name = target_dir + '/' + table["name"] + '.tsv'
           command = "SELECT * FROM #{table["name"]} INTO OUTFILE '#{table_file_name}'"
@@ -92,7 +92,7 @@ on_machine do |machine, params|
         end
         
         structure_dump_file = target_dir + '/schema.sql'
-        machine.ssh_and_check_result("command" => "mysqldump --no-data #{mysql_credentials(machine, db)} #{db_name} > #{structure_dump_file}")
+        machine.ssh("command" => "mysqldump --no-data #{mysql_credentials(machine, db)} #{db_name} > #{structure_dump_file}")
       else        
         target_file = target_dir_name + "/" + db_name + ".dmp"
         
@@ -110,7 +110,7 @@ on_machine do |machine, params|
         end
         command += " > #{target_file}"
         
-        machine.ssh_and_check_result("command" => command)
+        machine.ssh("command" => command)
       end
     end
 

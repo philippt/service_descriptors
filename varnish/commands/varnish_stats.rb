@@ -6,7 +6,7 @@ add_columns [ :key, :description, :value, :rate ]
 
 on_machine do |machine, params|
   result = []
-  machine.ssh_and_check_result("command" => "varnishstat -1").split("\n").each do |line|
+  machine.ssh("command" => "varnishstat -1").split("\n").each do |line|
     if matched = /(\S+)\s+(\d+)\s+([\d\.]+)\s+(.+)/.match(line)
       result << {
         "key" => matched.captures[0],

@@ -3,7 +3,7 @@ param! "directory", "target directory"
 
 on_machine do |machine, params|
   service_root = params["directory"]
-  machine.ssh_and_check_result("command" => "rails new #{service_root} -d mysql")
+  machine.ssh("command" => "rails new #{service_root} -d mysql")
   
   machine.configure_rails_service("directory" => service_root, "service_name" => service_root.split("/").last)
   
@@ -12,7 +12,7 @@ on_machine do |machine, params|
   end
   
   # TODO mysql_password
-  machine.ssh_and_check_result("command" => "sed -ie 's/password:/password: the_password/' #{service_root}/config/database.yml")
+  machine.ssh("command" => "sed -ie 's/password:/password: the_password/' #{service_root}/config/database.yml")
   
   # param :data_repovendor/
   #@op.add_file_to_version_control("working_copy" => "?", "file_name" => %w|.gitignore .vop/ Gemfile Gemfile.lock README Rakefile app/ config.ru config/ db/ doc/ lib/ public/ script/ test/ vendor/|)

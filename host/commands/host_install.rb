@@ -11,16 +11,16 @@ on_machine do |machine, params|
   
   machine.install_yum_group("group_name" => "Virtualization*")
   
-  loaded_modules = machine.ssh_and_check_result("command" => "lsmod | grep -c kvm").to_i
+  loaded_modules = machine.ssh("command" => "lsmod | grep -c kvm").to_i
   raise "could not find virtualization kernel module" unless loaded_modules >= 2
   
   machine.reboot_and_wait
     
   # TODO persist this
-  machine.ssh_and_check_result("command" => "brctl addbr br10")
-  machine.ssh_and_check_result("command" => "ifconfig br10 10.60.10.1 netmask 255.255.255.0")
+  machine.ssh("command" => "brctl addbr br10")
+  machine.ssh("command" => "ifconfig br10 10.60.10.1 netmask 255.255.255.0")
   if params.has_key?("extra_ip")
-    machine.ssh_and_check_result("command" => "ip addr add #{params["extra_ip"]}/32 dev eth0")
+    machine.ssh("command" => "ip addr add #{params["extra_ip"]}/32 dev eth0")
   end
   
   machine.iptables_generator_install

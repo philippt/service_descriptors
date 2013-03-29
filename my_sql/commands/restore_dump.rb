@@ -94,7 +94,7 @@ on_machine do |machine, params|
           # => oldschool mysql dumps
           
           # yes, rico...
-          machine.ssh_and_check_result("command" => "mysql #{mysql_credentials(machine, db_name)} -D#{db_name} -h #{mysql_host} < #{dump_file}")
+          machine.ssh("command" => "mysql #{mysql_credentials(machine, db_name)} -D#{db_name} -h #{mysql_host} < #{dump_file}")
         else
           # tsv files in a database directory
           if machine.file_exists("file_name" => database_dir_name)
@@ -104,7 +104,7 @@ on_machine do |machine, params|
             if machine.file_exists("file_name" => schema_file)
               $logger.debug("schema file found, assuming that this is a tsv file dump")
               
-              machine.ssh_and_check_result("command" => "mysql #{mysql_credentials(host, db_name)} -D#{db_name} -h #{mysql_host} < #{schema_file}")
+              machine.ssh("command" => "mysql #{mysql_credentials(host, db_name)} -D#{db_name} -h #{mysql_host} < #{schema_file}")
             end
             
             # now for the tsv files themselves
@@ -124,7 +124,7 @@ on_machine do |machine, params|
                   prefix = '.split_'
                   file_name_with_prefix = file_name + prefix                
                   # TODO this fails miserably when dealing with multi-line values like BLOBs
-                  machine.ssh_and_check_result("command" => "split -a 5 -d -l #{batch_size} #{full_file_name} #{full_file_name + prefix}") 
+                  machine.ssh("command" => "split -a 5 -d -l #{batch_size} #{full_file_name} #{full_file_name + prefix}") 
                   
                   # and import all chunk files created by 'split'
                   with_files(homachinest, database_dir_name, "#{file_name_with_prefix}*") do |chunk_file_name|

@@ -9,7 +9,7 @@ param! "user_name", "the user name to check"
 
 execute do |params|
   as_drupal_user(params) do |localhost, cookie_path, params|    
-    users = JSON.parse(localhost.ssh_and_check_result("command" => "curl -s -b #{cookie_path} \"#{params["drupal_url"]}/?q=#{params["services_endpoint"]}/user\""))
+    users = JSON.parse(localhost.ssh("command" => "curl -s -b #{cookie_path} \"#{params["drupal_url"]}/?q=#{params["services_endpoint"]}/user\""))
     users.select do |candidate|
       candidate["name"] == params["user_name"]
     end.size > 0

@@ -15,7 +15,7 @@ on_machine do |machine, params|
     temp_file_name = machine.home + "/vop_configure_varnish_backend_#{Time.now.to_i}.tmp"
     process_local_template(:default_vcl, machine, temp_file_name, binding())
     real_path = "/etc/varnish/default.vcl"
-    machine.ssh_and_check_result("command" => "sudo cp #{temp_file_name} #{real_path}")
+    machine.ssh("command" => "sudo cp #{temp_file_name} #{real_path}")
     machine.rm("file_name" => temp_file_name)
   else
     process_local_template(params["template_name"].to_sym, machine, "/etc/varnish/default.vcl", binding())
