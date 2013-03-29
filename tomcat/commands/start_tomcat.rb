@@ -8,13 +8,10 @@ on_machine do |machine, params|
   sleep 15
 
   found_entry = false
-  @op.wait_until(
-    "interval" => "5",
-    "timeout" => "60",
-    "condition" => lambda do
-      found_entry = machine.ssh("command" => "tail /var/log/tomcat6/catalina.out").split("\n").select do |line|
-        /Server startup in (\d+) ms/.match(line)
-      end.size > 0
-    end
-  )
+  @op.wait_until("interval" => "5", "timeout" => "60") do
+    found_entry = machine.ssh("command" => "tail /var/log/tomcat6/catalina.out").split("\n").select do |line|
+      /Server startup in (\d+) ms/.match(line)
+    end.size > 0
+  end
+  found_entry
 end
