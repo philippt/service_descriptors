@@ -8,11 +8,11 @@ on_machine do |machine, params|
   end    
   machine.start_unix_service("name" => "jenkins")
   
-  if params.has_key?('domain')    
-    machine.install_canned_service("service" => "apache/apache")
-    machine.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://localhost:8080/")
-    machine.restart_service("service" => "apache")
-    
-    machine.configure_reverse_proxy("domain" => params["domain"]) if machine.proxy
-  end
+  # if params.has_key?('domain')    
+    # machine.install_canned_service("service" => "apache/apache")
+    # machine.add_reverse_proxy("server_name" => [ params["domain"] ], "target_url" => "http://localhost:8080/")
+    # machine.restart_service("service" => "apache")
+#     
+    # machine.configure_reverse_proxy("domain" => params["domain"]) if machine.proxy
+  # end
 end
