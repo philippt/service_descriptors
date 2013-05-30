@@ -1,3 +1,3 @@
-unix_service :memcached
+unix_service "memcached"
 
 runlevel :infrastructure
