@@ -3,6 +3,7 @@ process_regex(/httpd/)
 
 names = {
   "centos" => "httpd",
+  "amazon" => "httpd",
   "sles" => "apache2"
 }
 unix_service names
