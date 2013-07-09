@@ -10,8 +10,12 @@ on_machine do |machine, params|
   @op.comment "executing as #{machine.ssh("id")}"
   tmp_file = "/tmp/virtualop_rvm_ssh_#{Time.now().to_i}"
   dir = params["directory"] || machine.home
+    
+  #generated = @op.process_local_template("file_name" => "/home/marvin/service_descriptors/rvm/templates/rvm_ssh.erb", "bindings" => binding())
   
   process_local_template(:rvm_ssh, machine, tmp_file, binding())
+  
+  #machine.write_file("target_filename" => tmp_file, "content" => generated)
   machine.chmod("file_name" => tmp_file, "permissions" => "+x")
   machine.ssh("cd #{dir} && #{tmp_file}") 
   #end
