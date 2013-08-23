@@ -14,5 +14,7 @@ on_machine do |machine, params|
   else
     nil
   end
-  machine.chown("file_name" => params["file_name"], "ownership" => "#{user}:") unless user == nil
+  machine.as_user("root") do |as_root|
+    as_root.chown("file_name" => params["file_name"], "ownership" => ".#{user}") unless user == nil
+  end
 end  

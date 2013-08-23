@@ -6,17 +6,12 @@ param! "command", "a bash command that should be executed in rvm context", :defa
 param "directory", "if specified, will cd to the directory before invoking command_string" 
 
 on_machine do |machine, params|
-  #m.as_user("root") do |machine|
-  @op.comment "executing as #{machine.ssh("id")}"
   tmp_file = "/tmp/virtualop_rvm_ssh_#{Time.now().to_i}"
   dir = params["directory"] || machine.home
     
-  #generated = @op.process_local_template("file_name" => "/home/marvin/service_descriptors/rvm/templates/rvm_ssh.erb", "bindings" => binding())
-  
+  @op.comment "rvm_ssh: #{params["command"]}"  
   process_local_template(:rvm_ssh, machine, tmp_file, binding())
   
-  #machine.write_file("target_filename" => tmp_file, "content" => generated)
   machine.chmod("file_name" => tmp_file, "permissions" => "+x")
   machine.ssh("cd #{dir} && #{tmp_file}") 
-  #end
 end

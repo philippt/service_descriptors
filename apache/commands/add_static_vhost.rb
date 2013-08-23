@@ -6,7 +6,7 @@ param "server_name", "the http domain served by this vhost", { :mandatory => tru
 param "document_root", "fully qualified path to the directory holding the static files", :mandatory => true
 param "twist", "some extra content that should be included in the Directory section of the generated config"
 
-on_machine do |machine, params|
+as_root do |machine, params|
   # TODO handle other domains
   first_domain = params["server_name"].first
   
