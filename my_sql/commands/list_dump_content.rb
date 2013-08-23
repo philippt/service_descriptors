@@ -40,9 +40,11 @@ on_machine do |machine, params|
     tarball_name = path_to_dump + ".tgz"
     if machine.file_exists("file_name" => tarball_name)
       tar_content = machine.ssh("command" => "tar -tzf #{tarball_name}")
-      tar_content.split(/\n/).each do |line|
+      #puts ">>>#{tar_content}<<<"
+      tar_content.split("\n").each do |line|
         # the content has been packed relatively to /home/webadmin/tmp, so we need to
         # strip the dump name that is prefixing all entries
+        line.strip! and line.chomp!
         
         dump_name_matched = /#{dump_name}\/(.+)/.match(line)
         if dump_name_matched          
