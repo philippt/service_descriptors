@@ -9,10 +9,20 @@ on_machine do |machine, params|
   machine.allow_access_for_apache("file_name" => params["repo_dir"])
   
   domain = params["domain"]
-  machine.add_static_vhost("server_name" => domain, "document_root" => params["repo_dir"], "twist" => "Dav On")
+twist = <<EOF
+Dav On
+
+<Limit PUT>
+  Order allow,deny
+  Allow from all
+</Limit>
+
+EOF
+        
+  machine.add_static_vhost("server_name" => domain, "document_root" => params["repo_dir"], "twist" => twist)
   machine.configure_reverse_proxy("domain" => domain)
 
-  machine.rm("file_name" => "/var/www/html/index.html")
+  machine.rm_if_exists("/var/www/html/index.html")
   machine.restart_service("service" => "apache")
   
   if params.has_key?("datarepo_init_url")
