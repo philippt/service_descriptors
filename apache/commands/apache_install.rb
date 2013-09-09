@@ -14,7 +14,11 @@ on_machine do |m, params|
     if machine.linux_distribution.split("_").first == "centos"
       process_local_template(:httpd_conf, machine, "/etc/httpd/conf/httpd.conf", binding())
     elsif machine.linux_distribution.split("_").first == "sles"
-      machine.ssh("command" => "sed -i -e 's/#NameVirtualHost \*:80/NameVirtualHost \*:80/' /etc/apache2/listen.conf")
+      #machine.ssh("command" => "sed -i -e 's/\#NameVirtualHost \*:80/NameVirtualHost *:80/' /etc/apache2/listen.conf")
+      machine.replace_in_file("file_name" => "/etc/apache2/listen.conf",
+        "source" => "\#NameVirtualHost \\*:80",
+        "target" => "NameVirtualHost *:80"
+      )
     end
     
     generated_dir = machine.apache_generated_conf_dir
