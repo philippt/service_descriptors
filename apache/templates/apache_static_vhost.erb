@@ -15,6 +15,6 @@
     </Directory>
     
 	LogLevel warn
-    ErrorLog /var/log/httpd/<%= first_domain %>.error.log
-    CustomLog /var/log/httpd/<%= first_domain %>.vop.access.log vop
+    ErrorLog <%= machine.apache_log_dir %>/<%= first_domain %>.error.log
+    CustomLog <%= machine.apache_log_dir %>/<%= first_domain %>.vop.access.log vop
 </VirtualHost>

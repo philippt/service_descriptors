@@ -8,11 +8,16 @@ param "twist", "some extra content that should be included in the Directory sect
 
 as_root do |machine, params|
   # TODO handle other domains
-  first_domain = params["server_name"].first
+  generated_dir = machine.apache_generated_conf_dir
   
   @directory_includes = params.has_key?("twist") ? params["twist"] : ""
+  first_domain = params["server_name"].first
   
-  process_local_template(:apache_static_vhost, machine, "/etc/httpd/conf.d.generated/#{first_domain}.conf", binding())
+  process_local_template(:apache_static_vhost, machine, "#{generated_dir}/#{first_domain}.conf", binding())
   
   # TODO make sure the document root has the appropriate permissions (apache/www-data)
+  
+  @op.without_cache do
+    machine.list_configured_vhosts
+  end
 end
