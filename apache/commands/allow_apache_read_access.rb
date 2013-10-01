@@ -15,5 +15,5 @@ on_machine do |machine, params|
     nil
   end
   machine.chown("file_name" => params["file_name"], "ownership" => "#{user}:") unless user == nil
-  machine.chmod("file_name" => params["file_name"], "permission" => "#{user}:") unless user == nil
+  #machine.chmod("file_name" => params["file_name"], "permissions" => "#{permissions}:")
 end  
