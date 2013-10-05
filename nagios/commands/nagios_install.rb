@@ -30,7 +30,7 @@ on_machine do |machine, params|
   machine.ssh("command" => "cd /root/downloads/nagios && make install-webconf")
   machine.ssh("command" => "htpasswd -cb /usr/local/nagios/etc/htpasswd.users nagiosadmin the_password")
   
-  machine.ssh("command" => "cd downloads/nagios-plugins-1.5.* && ./configure --with-nagios-user=nagios --with-nagios-group=nagios && make && make install")
+  machine.ssh("command" => "cd /root/downloads/nagios-plugins-1.5 && ./configure --with-nagios-user=nagios --with-nagios-group=nagios && make && make install")
   
   machine.ssh("command" => "chkconfig --add nagios")
   machine.ssh("command" => "chkconfig nagios on")
