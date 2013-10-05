@@ -12,10 +12,11 @@ on_machine do |machine, params|
   
   machine.mkdir("dir_name" => "/root/downloads")
   machine.wget("url" => "http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.3.1.tar.gz", "target_dir" => "/root/downloads")
-  machine.wget("url" => "http://sourceforge.net/projects/nagiosplug/files/latest/download?source=files", "target_dir" => "/root/downloads")
+  #machine.wget("url" => "http://sourceforge.net/projects/nagiosplug/files/latest/download?source=files", "target_dir" => "/root/downloads")
+  machine.wget("url" => "https://www.nagios-plugins.org/download/nagios-plugins-1.5.tar.gz", "target_dir" => "/root/downloads")
   
   machine.explode("tar_name" => "/root/downloads/nagios-3.3.1.tar.gz", "working_dir" => "/root/downloads")
-  machine.explode("tar_name" => "/root/downloads/nagios-plugins-1.4.*.tar.gz", "working_dir" => "/root/downloads")
+  machine.explode("tar_name" => "/root/downloads/nagios-plugins-1.5.tar.gz", "working_dir" => "/root/downloads")
   
   machine.ssh("command" => "cd /root/downloads/nagios && ./configure --with-command-group=nagcmd")
   machine.ssh("command" => "cd /root/downloads/nagios && make all")
@@ -29,7 +30,7 @@ on_machine do |machine, params|
   machine.ssh("command" => "cd /root/downloads/nagios && make install-webconf")
   machine.ssh("command" => "htpasswd -cb /usr/local/nagios/etc/htpasswd.users nagiosadmin the_password")
   
-  machine.ssh("command" => "cd downloads/nagios-plugins-1.4.* && ./configure --with-nagios-user=nagios --with-nagios-group=nagios && make && make install")
+  machine.ssh("command" => "cd downloads/nagios-plugins-1.5.* && ./configure --with-nagios-user=nagios --with-nagios-group=nagios && make && make install")
   
   machine.ssh("command" => "chkconfig --add nagios")
   machine.ssh("command" => "chkconfig nagios on")
