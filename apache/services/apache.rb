@@ -1,5 +1,5 @@
 port 80
-process_regex(/httpd/)
+#process_regex(/httpd/)
 
 names = {
   "centos" => "httpd",
