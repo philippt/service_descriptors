@@ -1,11 +1,13 @@
 param :machine
 param "extra_ip", "extra IP address to configure on eth0"
 
-on_machine do |machine, params|  
-  %w|messagebus avahi-daemon libvirtd|.each do |service_name|
+on_machine do |machine, params|
+  services = %w|messagebus avahi-daemon libvirtd|   
+  services.each do |service_name|
     machine.restart_unix_service("name" => service_name)
   end
-  %w|messagebus avahi-daemon|.each do |service_name|
+  services.delete("libvirtd")
+  services.each do |service_name|
     machine.mark_unix_service_for_autostart("name" => service_name)
   end
   
