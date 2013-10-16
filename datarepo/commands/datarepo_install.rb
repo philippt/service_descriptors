@@ -42,7 +42,7 @@ EOF
     end
   end
   
-  machine.restart_service("service" => "apache")
+  machine.restart_service 'apache/apache'
   
   if params.has_key?("datarepo_init_url")
     machine.populate_repo_from_url("source_url" => params["datarepo_init_url"])

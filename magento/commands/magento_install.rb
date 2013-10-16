@@ -22,6 +22,6 @@ on_machine do |machine, params|
   #process_local_template(:local_xml, machine, "#{service_root}/app/etc/local.xml", binding())
   
   machine.add_static_vhost("document_root" => service_root, "server_name" => params["domain"])
-  machine.restart_service("service" => "apache")
+  machine.restart_service 'apache/apache'
   machine.configure_reverse_proxy("domain" => params["domain"], "timeout" => "300")
 end  

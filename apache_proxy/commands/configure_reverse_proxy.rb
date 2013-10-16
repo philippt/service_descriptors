@@ -17,6 +17,16 @@ on_machine do |machine, params|
       "target_url" => "http://#{machine.ipaddress}#{port}/"
     }.merge_from params, :timeout, :invalidation
     proxy.add_reverse_proxy(p)
-    proxy.restart_unix_service("name" => "httpd")
+    services = proxy.list_services.map { |x| x["name"] }
+    service_name = nil
+    # TODO snafu
+    if services.include?('apache/apache')
+      service_name = 'apache/apache'
+    elsif services.include? 'apache'
+      service_name = 'apache'
+    end
+    if service_name
+      proxy.restart_service service_name
+    end
   end
 end
