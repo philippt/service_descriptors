@@ -10,8 +10,8 @@ on_machine do |machine, params|
     result_by_name = {}
     machine.list_files("directory" => dump_dir).each do |file|
       dump_pattern = "db_backup_"
-      next unless matcher = /^(db_backup_(.*?))(\.tgz)?$/.match(file)
-      name_components = matcher.captures[1].split("_")
+      next unless matcher = /^(db_backup-(.*?))(\.tgz)?$/.match(file)
+      name_components = matcher.captures[1].split("-")
       result_hash = {
         "name" => "" + matcher.captures[0],
         "date" => name_components.last,
