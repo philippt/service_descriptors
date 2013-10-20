@@ -15,4 +15,5 @@ post_installation do |machine, params|
   machine.as_user('root') do |root|
     root.ssh "dbus-uuidgen > /var/lib/dbus/machine-id"
   end
+  machine.mkdir "#{machine.home}/tests"
 end  
