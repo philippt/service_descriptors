@@ -7,7 +7,7 @@ names = {
 }
 unix_service names
 
-post_installation do |machine, params|
+post_first_start do |machine, params|
   begin
     # TODO we can do this only once
     # TODO hardcoded password
