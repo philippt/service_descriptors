@@ -17,7 +17,7 @@ on_machine do |machine, params|
       "target_url" => "http://#{machine.ipaddress}#{port}/"
     }.merge_from params, :timeout, :invalidation
     proxy.add_reverse_proxy(p)
-    services = proxy.list_services.map { |x| x["name"] }
+    services = proxy.list_services.map { |x| x["full_name"] }
     service_name = nil
     # TODO snafu
     if services.include?('apache/apache')
