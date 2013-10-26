@@ -1,3 +1,4 @@
+dependencies [ :machines, :erb_processor, :core ]
 dependencies [ :service_descriptors, :canned_services ]
 
 tags :canned_services

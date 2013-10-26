@@ -31,7 +31,7 @@ on_machine do |machine, params|
     # prepare default dir and filename
     dump_name = params.has_key?("dump_name") ?
       params["dump_name"] :
-      "db_backup_" + machine.name + '_' + Time.now().strftime("%Y%m%d%H%M")    
+      "db_backup-" + machine.name + '-' + Time.now().strftime("%Y%m%d%H%M")    
     target_dir_name = dump_dir + '/' + dump_name
     
     # allow for overriding the target filename
