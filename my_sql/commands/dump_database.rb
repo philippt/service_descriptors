@@ -115,6 +115,9 @@ on_machine do |machine, params|
       command += " > #{target_file}"
       
       machine.ssh("command" => command)
+      if params["dont_drop"].to_s == 'true'
+        machine.replace_in_file("file_name" => target_file, "source" => 'CREATE TABLE', "target" => 'CREATE TABLE IF NOT EXISTS')
+      end
     end
   end
 
