@@ -1,6 +1,7 @@
 description "restores the local database(s) from a dump file. old data gets lost while doing so."
 
-add_columns [ :name, :date, :host ]
+#add_columns [ :name, :date, :host ]
+display_type :list
 
 param :machine
 param! "file_name", "a tarball (.tgz) holding the dump file (.dmp) that should be restored", :default_param => true
