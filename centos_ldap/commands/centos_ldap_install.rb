@@ -16,6 +16,7 @@ on_machine do |machine, params|
   machine.append_to_file("file_name" => "/etc/resolv.conf", "content" => "search #{params["domain"]}")  
   
   process_local_template(:setup_ds_inf, machine, machine.home + '/tmp/setup_ds.inf', binding())
+  machine.ssh "cp /tmp/setup_ds.inf $HOME/setup_ds.inf.bak"
   
   machine.ssh("command" => "setup-ds.pl -s -f tmp/setup_ds.inf")
 end

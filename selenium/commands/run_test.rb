@@ -17,15 +17,8 @@ on_machine do |machine, params|
   test = machine.list_selenium_tests.select { |x| x["name"] == params["test_name"] }.first
   
   if test["type"] == "rb"
-    work_dir = machine.home + "/generated"
-    tmp_file = work_dir + '/' + params["test_name"]
-    
     content = machine.process_file("file_name" => test["file_name"], "bindings" => binding())
-    
-    #content = machine.read_file(test["file_name"])
-    process_local_template(:selenium_ruby, machine, tmp_file, binding())
-    
-    machine.rvm_ssh "ruby #{tmp_file}"
+    machine.selenium_ruby(content)
   else
     raise "unknown type #{test["type"]}"
   end

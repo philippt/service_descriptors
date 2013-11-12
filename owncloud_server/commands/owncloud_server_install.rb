@@ -5,6 +5,7 @@ param "ldap_host", "hostname or IP of a LDAP server used for auth"
 param "ldap_domain", "the domain that should be used to construct the base DN (e.g. foo.org will be transformed to dc=foo,dc=org)"
 param "bind_user", "ldap search string identifying the user to use for binding to the LDAP server (e.g. cn=manager)"
 param "bind_password", "the password to use for LDAP binding"
+param "selenium_machine", "a machine on which selenium tests can be executed"
 
 on_machine do |machine, params|
   # TODO move into static_html, :document_root => 'foo' ?
@@ -15,12 +16,18 @@ on_machine do |machine, params|
   machine.ssh("command" => "curl -c cookies.txt -v -o /dev/null http://#{params["domain"]}/index.php")
   
   # TODO hardcoded install values
-  admin_user = 'marvin'
+  admin_user = 'admin'
   admin_pwd = 'the_password'
   machine.ssh("command" => "curl -b cookies.txt -c cookies2.txt -v -d 'install=true&adminlogin=#{admin_user}&adminpass=#{admin_pwd}&directory=%2Fvar%2Fwww%2Fhtml%2Fowncloud%2Fdata&dbtype=sqlite&dbuser=&dbpass=&dbname=&dbhost=localhost' http://#{params["domain"]}/")
   @op.comment machine.read_file("file_name" => "cookies2.txt")
 
-  if params.has_key?("ldap_host")
+  if params.has_key?('ldap_host') && params.has_key?('selenium_machine')
+    selenium = read_local_template(:ldap_config, binding())
+    @op.selenium_ruby('machine' => params['selenium_machine'], 'selenium' => selenium)
+  end
+  
+
+  if params.has_key?("ldap_host") and false
     # login as admin
     machine.ssh("command" => "curl -c cookies3.txt -v -d 'user=#{admin_user}&password=#{admin_pwd}' http://#{params["domain"]}/")
     @op.comment machine.read_file("file_name" => "cookies3.txt")
