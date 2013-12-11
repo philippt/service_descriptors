@@ -4,7 +4,8 @@ port 80
 names = {
   "centos" => "httpd",
   "amazon" => "httpd",
-  "sles" => "apache2"
+  "sles" => "apache2",
+  "ubuntu" => "apache2"
 }
 unix_service names
 
