@@ -23,12 +23,6 @@ on_machine do |machine, params|
   @op.comment machine.read_file("file_name" => "cookies2.txt")
 
   if params.has_key?('ldap_host') && params.has_key?('selenium_machine')
-    ldap_base = CGI.escapeHTML(params['ldap_domain'].split('.').map { |x| "dc=#{x}" }.join(','))
-    
-    bind_user = CGI.escapeHTML(params["bind_user"])
-    bind_password = params['bind_password']
-    
-    selenium = read_local_template(:ldap_config, binding())
-    @op.selenium_ruby('machine' => params['selenium_machine'], 'selenium' => selenium)
+    machine.owncloud_ldap(params)
   end
 end
