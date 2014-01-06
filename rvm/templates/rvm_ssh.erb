@@ -1,5 +1,5 @@
 #!/bin/bash
 
-[ -f $HOME/.profile ] && . $HOME/.profile || . /etc/profile
-[ -f $HOME/.rvm/scripts/rvm ] && . $HOME/.rvm/scripts/rvm
+[ -f <%= machine.home %>/.profile ] && . <%= machine.home %>/.profile || . /etc/profile
+[ -f <%= machine.home %>/.rvm/scripts/rvm ] && . <%= machine.home %>/.rvm/scripts/rvm
 <%= params["command"] %>
