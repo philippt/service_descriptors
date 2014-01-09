@@ -12,8 +12,8 @@ log_file "log/selenium.log"
 
 # see http://www.torkwrench.com/2011/12/16/d-bus-library-appears-to-be-incorrectly-set-up-failed-to-read-machine-uuid-failed-to-open-varlibdbusmachine-id/
 post_installation do |machine, params|
-  machine.as_user('root') do |root|
-    root.ssh "dbus-uuidgen > /var/lib/dbus/machine-id"
-  end
+  #machine.as_user('root') do |root|
+  #  root.ssh "dbus-uuidgen > /var/lib/dbus/machine-id"
+  #end
   machine.mkdir "#{machine.home}/tests"
 end  

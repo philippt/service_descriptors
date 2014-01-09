@@ -18,7 +18,7 @@ on_machine do |machine, params|
   
   if test["type"] == "rb"
     content = machine.process_file("file_name" => test["file_name"], "bindings" => binding())
-    machine.selenium_ruby(content)
+    machine.selenium_ruby('selenium' => content)
   else
     raise "unknown type #{test["type"]}"
   end
