@@ -23,9 +23,18 @@ execute do |params|
   
   $logger.info "last recorded build is ##{last_build_so_far["number"]}" unless last_build_so_far == nil
   
-  @op.http_get(
-    "url" => "#{config_string('jenkins_url')}/job/#{job_name}/build"
-  )
+  p = {
+    'machine' => 'localhost',
+    'target_url' => "#{config_string('jenkins_url')}/job/#{job_name}/build",
+    'data' => {
+      'not' => 'relevant'
+    }
+  }
+  auth = config_string('jenkins_auth', '')
+  if auth != ''
+    p['basic_auth'] = auth
+  end
+  @op.http_post(p)
   
   if params["wait"] == "true"
     sleep config_string('post_launch_wait_secs', "5").to_i

@@ -2,7 +2,10 @@ dependency :machines
 dependency :core
 dependency :erb_processor
 
+dependency :github_scm # see create_jenkins_job
+
 config_param! "jenkins_url", "the URL where jenkins can be found"
+config_param 'jenkins_auth', 'username/password (separated by slash) for jenkins HTTP basic auth'
 config_param "vop_command", "the command to run virtualop commands from a jenkins context", 
   :default_value => "vop -u marvin -f -l"
 

@@ -16,7 +16,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command><%= config_string("vop_command") %> -e &quot;<%= params["command_string"] %>&quot;</command>
+      <command><%= config_string("vop_command") %> <%= context ? context.map { |k,v| "-o #{k}=#{v}" }.join(" ") : '' %> -e &quot;<%= params["command_string"] %>&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
