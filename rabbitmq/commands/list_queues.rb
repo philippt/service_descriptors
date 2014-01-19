@@ -1,4 +1,4 @@
-param :machine
+param :machine, '', :default_param => true
 
 add_columns [ :name, :messages_ready ]
 
