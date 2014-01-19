@@ -4,7 +4,8 @@ glibc
 glibc-common
 gd
 gd-devel
-#nagios-plugins-nrpe
+automake
+gettext
 make
 perl
 openssl-devel
