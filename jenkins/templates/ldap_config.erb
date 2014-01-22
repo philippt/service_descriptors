@@ -1,0 +1,6 @@
+driver.navigate.to "http://<%= params["domain"] %>"
+puts driver.title
+driver.find_elements(:class => 'task-link').select { |x| x.text == 'Manage Jenkins' }.first.click
+
+driver.navigate.to "http://<%= params["domain"] %>/configureSecurity/"
+puts driver.title
