@@ -50,7 +50,7 @@ on_machine do |machine, params|
 
       $logger.info("restoring database #{db_name}")
 
-      if local_dbs.include?(db_name) && ! params["dont_drop"].to_s == 'true'
+      if local_dbs.include?(db_name) && params["dont_drop"].to_s != 'true'
         machine.drop_database("database" => db_name)
         local_dbs.delete(db_name)
       end
