@@ -1,0 +1,42 @@
+user_filter = driver.find_element(:id, 'ui-id-2')
+puts user_filter.text
+user_filter.click
+sleep 5
+
+object_class = driver.find_element(:id, 'ldap_userfilter_objectclass')
+puts "object_class displayed : #{object_class.displayed?}"
+puts driver.execute_script("$('#ldap_userfilter_objectclass').show(); return 42;")
+puts "object_class displayed : #{object_class.displayed?}"
+
+object_class.click
+
+count = driver.find_element(:id, 'ldap_user_count')
+
+puts "waiting"
+sleep 5
+puts "count : #{count.text}"
+
+puts "waiting"
+sleep 5
+puts "count : #{count.text}"
+
+select = Select.new(object_class)
+puts select.options.map { |x| x.text }
+select.deselect_all
+select.select_by(:value, 'person')
+selected = select.selected_options.map { |x| x.text }
+puts "object_class user filter done; selected : #{selected}"
+
+count.click
+#select.click
+#object_class.click
+
+driver.find_element(:class, 'ldap_action_continue').click()
+
+puts "waiting"
+sleep 5
+puts "count : #{count.text}"
+
+puts "waiting"
+sleep 5
+puts "count : #{count.text}"

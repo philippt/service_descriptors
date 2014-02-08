@@ -1,0 +1,24 @@
+login_filter = driver.find_element(:id, 'ui-id-3')
+puts login_filter.text
+login_filter.click
+
+puts "waiting"
+sleep 5
+
+other_attributes = driver.find_element(:id, 'ldap_loginfilter_attributes')
+
+puts "other_attributes displayed : #{other_attributes.displayed?}"
+puts driver.execute_script("$('#ldap_loginfilter_attributes').show(); return 42;")
+puts "other_attributes displayed : #{other_attributes.displayed?}"
+
+other_attributes.click
+
+puts "waiting"
+sleep 5
+
+select = Select.new(other_attributes)
+puts select.options.map { |x| x.text }
+select.deselect_all
+select.select_by(:value, 'cn')
+selected = select.selected_options.map { |x| x.text }
+puts "login filter done; selected : #{selected}"

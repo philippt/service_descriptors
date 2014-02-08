@@ -1,0 +1,31 @@
+driver.navigate.to "http://<%= params["domain"] %>/index.php/settings/admin"
+puts "configuring..."
+
+host = driver.find_element(:id, 'ldap_host')
+host.click
+host.clear
+host.send_keys '<%= params['ldap_host'] %>'
+
+base = driver.find_element(:id, 'ldap_base')
+base.click
+base.clear
+base.send_keys '<%= ldap_base %>'
+
+user = driver.find_element(:id, 'ldap_dn')
+user.clear
+user.send_keys '<%= bind_user %>'
+
+port = driver.find_element(:id, 'ldap_port')
+port.click
+port.clear
+port.send_keys '389'
+
+password = driver.find_element(:id, 'ldap_agent_password')
+password.clear
+password.send_keys '<%= bind_password %>'
+
+#driver.find_element(:class, 'ldap_action_continue').click()
+puts "connection config done."
+
+puts "waiting"
+sleep 5

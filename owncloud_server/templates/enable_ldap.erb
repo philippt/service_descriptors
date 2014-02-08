@@ -1,0 +1,13 @@
+driver.find_element(:id, 'expandDisplayName').click
+driver.navigate.to "http://<%= params["domain"] %>/index.php/settings/apps?installed"
+apps = driver.find_elements(:class, 'app').select { |x| /LDAP/ =~ x.text }
+raise "no LDAP app found" unless apps.size > 0
+link = apps.first
+puts "found link #{link.text}"
+link.click
+
+enable_button = driver.find_element(:class, 'enable')
+caption = enable_button.attribute("value")
+if caption == "Enable"
+  enable_button.click
+end  

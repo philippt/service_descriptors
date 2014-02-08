@@ -1,0 +1,26 @@
+advanced = driver.find_element(:id, 'ui-id-6')
+puts advanced.text
+advanced.click()
+
+directory_settings = driver.find_element(:id, 'ui-accordion-ldapAdvancedAccordion-header-1')
+puts directory_settings.text
+directory_settings.click
+
+user_display_field = driver.find_element(:id, 'ldap_display_name')
+user_display_field.clear
+user_display_field.send_keys('uid')
+
+user_base = driver.find_element(:id, 'ldap_base_users')
+user_base.clear
+user_base.send_keys("ou=People,<%= ldap_base %>")
+
+group_display_name = driver.find_element(:id, 'ldap_group_display_name')
+group_display_name.clear
+group_display_name.send_keys('cn')
+
+groups_base = driver.find_element(:id, 'ldap_base_groups')
+groups_base.clear
+groups_base.send_keys("ou=Groups,<%= ldap_base %>")
+
+driver.find_element(:class, 'ldap_submit').click
+puts "advanced config done."

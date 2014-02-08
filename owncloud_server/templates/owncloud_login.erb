@@ -1,0 +1,9 @@
+include Selenium::WebDriver::Support
+
+driver.navigate.to "http://<%= params["domain"] %>"
+puts driver.title
+
+driver.find_element(:id, 'user').send_keys '<%= params['admin_user'] %>'
+driver.find_element(:id, 'password').send_keys '<%= params['admin_password'] %>'
+driver.find_element(:id, 'password').submit
+puts driver.title
