@@ -16,6 +16,12 @@ on_machine do |machine, params|
   bind_user = CGI.escapeHTML(params["bind_user"])
   bind_password = params['bind_password']
   
-  selenium = read_local_template(:ldap_config, binding())
+  #selenium = read_local_template(:ldap_config, binding())
+  selenium = ''
+  templates = %w|owncloud_login enable_ldap|
+  templates += %w| connection advanced user_filter login_filter|
+  templates.each do |template|
+    selenium += "\n\n# +++ #{template} +++\n" + read_local_template(template.to_sym, binding())
+  end
   @op.selenium_ruby('machine' => params['selenium_machine'], 'selenium' => selenium)
 end  

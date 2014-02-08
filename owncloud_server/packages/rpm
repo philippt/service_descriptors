@@ -1,2 +1,3 @@
 owncloud
-php55w-ldap
+#php55w-ldap
+php-ldap

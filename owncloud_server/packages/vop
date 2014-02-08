@@ -1,3 +1,4 @@
 epel
 apache
-php55_centos
+php
+#php55_centos
